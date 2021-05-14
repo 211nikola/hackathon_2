@@ -34,11 +34,11 @@ public class Judge {
 
     private String country;
 
-    //bi-directional many-to-one association to Ocena
+
     @OneToMany(mappedBy="judge")
     private Set<Mark> marks;
 
-    //bi-directional many-to-one association to Sudijahakaton
+
     @OneToMany(mappedBy="judge")
     private Set<Judgehackathon> judgehackathons;
 

@@ -29,12 +29,11 @@ public class Mentor {
 
     private String profession;
 
-    //bi-directional many-to-one association to Administrator
     @ManyToOne
     @JoinColumn(name="administratorid",insertable = false, updatable = false)
     private Administrator administrator;
 
-    //bi-directional many-to-one association to Tim
+
     @OneToMany(mappedBy="mentor")
     private Set<Team> teams;
 

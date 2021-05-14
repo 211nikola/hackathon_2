@@ -24,16 +24,16 @@ public class Hackathon {
 
     private String name;
 
-    //bi-directional many-to-one association to Administrator
+
     @ManyToOne
     @JoinColumn(name="administratorid",insertable = true, updatable = true)
     private Administrator administrator;
 
-    //bi-directional many-to-one association to Sudijahakaton
+
     @OneToMany(mappedBy="hackathon")
     private Set<Judgehackathon> judgehackathons;
 
-    //bi-directional many-to-one association to Tim
+
     @OneToMany(mappedBy="hackathon")
     private Set<Team> teams;
 }

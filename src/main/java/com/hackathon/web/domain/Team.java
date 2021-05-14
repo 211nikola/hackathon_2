@@ -23,28 +23,28 @@ public class Team {
 
     private String name;
 
-    //bi-directional many-to-one association to Clan
+
 
     @OneToMany(mappedBy = "team")
     private Set<Member> members;
 
 
 
-    //bi-directional many-to-one association to Ocena
+
     @OneToMany(mappedBy = "team")
     private Set<Mark> marks;
 
-    //bi-directional many-to-one association to Mentor
+
     @ManyToOne
     @JoinColumn(name = "mentorid",insertable = false, updatable = false)
     private Mentor mentor;
 
-    //bi-directional many-to-one association to Administrator
+
     @ManyToOne
     @JoinColumn(name = "administratorid",insertable = false, updatable = false)
     private Administrator administrator;
 
-    //bi-directional many-to-one association to Hakaton
+
     @ManyToOne
     @JoinColumn(name = "hackathonid",insertable = false, updatable = false)
     private Hackathon hackathon;

@@ -28,7 +28,7 @@ public class Mark {
     @JoinColumn(name="judgeid",insertable = false, updatable = false)
     private Judge judge;
 
-    //bi-directional many-to-one association to Tim
+
     @ManyToOne
     @JoinColumn(name="teamid",insertable = false, updatable = false)
     private Team team;

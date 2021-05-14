@@ -38,19 +38,19 @@ public class Administrator {
 
     private String adminType;
 
-    //bi-directional many-to-one association to Hakaton
+
     @OneToMany(mappedBy="administrator")
     private Set<Hackathon> hackathons;
 
-    //bi-directional many-to-one association to Mentor
+
     @OneToMany(mappedBy="administrator")
     private Set<Mentor> mentors;
 
-    //bi-directional many-to-one association to Sudijahakaton
+
     @OneToMany(mappedBy="administrator")
     private Set<Judgehackathon> judgehackathons;
 
-    //bi-directional many-to-one association to Tim
+
     @OneToMany(mappedBy="administrator")
     private Set<Team> teams;
 

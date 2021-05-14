@@ -19,12 +19,12 @@ public class Judgehackathon {
     @JoinColumn(name="hackathonid",insertable = false, updatable = false)
     private Hackathon hackathon;
 
-    //bi-directional many-to-one association to Sudija
+
     @ManyToOne
     @JoinColumn(name="judgeid",insertable = false, updatable = false)
     private Judge judge;
 
-    //bi-directional many-to-one association to Administrator
+
     @ManyToOne
     @JoinColumn(name="administratorid",insertable = false, updatable = false)
     private Administrator administrator;
