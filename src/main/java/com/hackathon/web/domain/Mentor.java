@@ -29,12 +29,12 @@ public class Mentor {
 
     private String profession;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="administratorid",insertable = false, updatable = false)
     private Administrator administrator;
 
 
-    @OneToMany(mappedBy="mentor")
+    @OneToMany(mappedBy="mentor",fetch = FetchType.EAGER)
     private Set<Team> teams;
 
 }

@@ -13,4 +13,5 @@ public interface AdministratorService {
     List<Administrator> findAdministratorsByName();
     Administrator saveAdministrator(Administrator administrator);
 
+
 }

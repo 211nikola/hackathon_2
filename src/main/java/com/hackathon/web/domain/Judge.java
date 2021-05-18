@@ -4,13 +4,13 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Entity
 public class Judge {
 
@@ -35,11 +35,11 @@ public class Judge {
     private String country;
 
 
-    @OneToMany(mappedBy="judge")
+    @OneToMany(mappedBy="judge",fetch = FetchType.EAGER)
     private Set<Mark> marks;
 
 
-    @OneToMany(mappedBy="judge")
+    @OneToMany(mappedBy="judge",fetch = FetchType.EAGER)
     private Set<Judgehackathon> judgehackathons;
 
 }

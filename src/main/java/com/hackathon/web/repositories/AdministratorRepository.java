@@ -11,6 +11,8 @@ public interface AdministratorRepository extends CrudRepository<Administrator,Lo
 
     List<Administrator> findAdministratorByAdministratorid(Long administratorid);
     List<Administrator> findAdministratorsByName(@Size(min = 2, max = 255) String name);
+    Administrator findAdministratorByUsernameAndPassword(String username,String password);
+
 
     @Override
     <S extends Administrator> S save(S entity);

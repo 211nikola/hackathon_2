@@ -66,8 +66,14 @@ class AdministratorRepositoryTest {
 
     @Test
     void testDeleteById() {
-        repository.deleteById(7L);
+        repository.deleteById(3L);
     }
 
+
+    @Test
+    void findAdministratorByUsernameAndPassword() {
+        repository.findAdministratorByUsernameAndPassword("cc","cc");
+
+    }
 
 }

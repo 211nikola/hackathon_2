@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -13,7 +14,6 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
-@EqualsAndHashCode
 @Entity
 @NamedQuery(name="administrator.findAll", query="SELECT a FROM Administrator a")
 public class Administrator {
@@ -39,19 +39,19 @@ public class Administrator {
     private String adminType;
 
 
-    @OneToMany(mappedBy="administrator")
+    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
     private Set<Hackathon> hackathons;
 
 
-    @OneToMany(mappedBy="administrator")
+    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
     private Set<Mentor> mentors;
 
 
-    @OneToMany(mappedBy="administrator")
+    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
     private Set<Judgehackathon> judgehackathons;
 
 
-    @OneToMany(mappedBy="administrator")
+    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
     private Set<Team> teams;
 
 

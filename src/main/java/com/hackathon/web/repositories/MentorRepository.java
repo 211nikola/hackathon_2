@@ -5,6 +5,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MentorRepository extends CrudRepository<Mentor,Long> {
 
+    Mentor findByMentorID(Long mentorid);
+
     @Override
     <S extends Mentor> S save(S entity);
 

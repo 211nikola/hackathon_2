@@ -24,7 +24,7 @@ public class Member {
 
     private String role;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="teamid",insertable = false, updatable = false )
     private Team team;
 }

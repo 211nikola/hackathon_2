@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface JudgeRepository extends CrudRepository<Judge,Long> {
     List<Judge> findAllByNameContains(String search);
+    Judge findByNameContains(String search);
+    Judge findByJudgeid(Long id);
+    List<Judge> findAllByJudgeid(Long id);
 
 
     @Override

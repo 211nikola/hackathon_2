@@ -6,6 +6,8 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface MarkRepository extends CrudRepository<Mark,Long> {
 
+    Mark findByJudge_JudgeidAndTeamTeamID(Long judgeid,Long teamiD);
+
     @Override
     <S extends Mark> S save(S entity);
 

@@ -4,13 +4,14 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
+
 @Entity
 @AllArgsConstructor
 public class Hackathon {
@@ -25,15 +26,15 @@ public class Hackathon {
     private String name;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="administratorid",insertable = true, updatable = true)
     private Administrator administrator;
 
 
-    @OneToMany(mappedBy="hackathon")
+    @OneToMany(mappedBy="hackathon",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Judgehackathon> judgehackathons;
 
 
-    @OneToMany(mappedBy="hackathon")
+    @OneToMany(mappedBy="hackathon",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Team> teams;
 }

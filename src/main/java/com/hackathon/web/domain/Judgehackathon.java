@@ -15,17 +15,17 @@ public class Judgehackathon {
    @EmbeddedId
    private JudgehackathonId id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="hackathonid",insertable = false, updatable = false)
     private Hackathon hackathon;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="judgeid",insertable = false, updatable = false)
     private Judge judge;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="administratorid",insertable = false, updatable = false)
     private Administrator administrator;
 }

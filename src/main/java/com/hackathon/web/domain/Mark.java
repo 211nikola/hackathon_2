@@ -9,7 +9,6 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @ToString
-@EqualsAndHashCode
 @Entity
 public class Mark {
 
@@ -24,12 +23,12 @@ public class Mark {
 
     private int complexity;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="judgeid",insertable = false, updatable = false)
     private Judge judge;
 
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="teamid",insertable = false, updatable = false)
     private Team team;
 }
