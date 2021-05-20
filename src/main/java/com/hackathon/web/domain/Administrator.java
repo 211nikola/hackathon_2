@@ -39,19 +39,20 @@ public class Administrator {
     private String adminType;
 
 
-    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Hackathon> hackathons;
 
 
-    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Mentor> mentors;
 
 
-    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Judgehackathon> judgehackathons;
 
 
     @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<Team> teams;
 
 

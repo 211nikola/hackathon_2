@@ -2,6 +2,7 @@ package com.hackathon.web.domain;
 
 
 import lombok.*;
+import org.hibernate.annotations.Immutable;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @ToString
 @Entity
+@AllArgsConstructor
 public class Mark {
 
     @EmbeddedId
@@ -24,11 +26,13 @@ public class Mark {
     private int complexity;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="judgeid",insertable = false, updatable = false)
+    @JoinColumn(name="judgeid",insertable = true, updatable = true)
+    @ToString.Exclude
     private Judge judge;
 
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="teamid",insertable = false, updatable = false)
+    @ToString.Exclude
     private Team team;
 }

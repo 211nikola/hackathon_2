@@ -35,7 +35,7 @@ public class Judge {
     private String country;
 
 
-    @OneToMany(mappedBy="judge",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="judge",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Mark> marks;
 
 

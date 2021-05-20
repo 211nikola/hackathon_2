@@ -1,9 +1,12 @@
 package com.hackathon.web.repositories;
 
 import com.hackathon.web.domain.Hackathon;
+import com.hackathon.web.domain.Judge;
 import com.hackathon.web.domain.Judgehackathon;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
@@ -13,6 +16,16 @@ public interface JudgehackathonRepository extends CrudRepository<Judgehackathon,
     @Override
     <S extends Judgehackathon> S save(S entity);
 
+
+    @Modifying
+    @Query("delete from Judgehackathon jh " +
+            "where jh.id.administratorid=?1 and jh.id.judgeid=?2 and jh.id.hackathonid=?3")
+    void
+    deleteJudgehackathonByAdministrator_AdministratoridAndJudge_JudgeidAndHackathon_Hackathonid
+            (Long adminID,Long judgeID,Long hackathonID);
+
+    @Transactional
+    @Modifying
     @Override
     void delete(Judgehackathon entity);
 
@@ -29,6 +42,8 @@ public interface JudgehackathonRepository extends CrudRepository<Judgehackathon,
     //List<Judgehackathon> findAllByHackathon_HackathonidAndIdIs(Long id);
     List<Judgehackathon> findJudgehackathonsByHackathon_Hackathonid(Long id);
     Set<Judgehackathon> findJudgehackathonsByHackathon(Hackathon h);
+    Judgehackathon findByJudge_Judgeid(Long id);
+    Judgehackathon findByJudge(Judge judge);
 
 
 

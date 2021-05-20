@@ -67,6 +67,8 @@ class JudgeRepositoryTest {
 
     @Test
     void delete() {
+        Judge judge = judgeRepository.findByJudgeid(3L);
+        judgeRepository.delete(judge);
     }
 
     @Test

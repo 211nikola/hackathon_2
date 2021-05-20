@@ -36,5 +36,6 @@ public class Hackathon {
 
 
     @OneToMany(mappedBy="hackathon",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ToString.Exclude
     private Set<Team> teams;
 }

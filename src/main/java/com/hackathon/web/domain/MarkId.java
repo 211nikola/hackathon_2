@@ -14,6 +14,7 @@ import java.io.Serializable;
 @Embeddable
 public class MarkId implements Serializable {
 
+
     private Long markid;
 
     @Column(insertable=false, updatable=false)

@@ -10,6 +10,7 @@ public interface AdministratorRepository extends CrudRepository<Administrator,Lo
 
 
     List<Administrator> findAdministratorByAdministratorid(Long administratorid);
+    Administrator findByAdministratorid(Long administratorid);
     List<Administrator> findAdministratorsByName(@Size(min = 2, max = 255) String name);
     Administrator findAdministratorByUsernameAndPassword(String username,String password);
 
