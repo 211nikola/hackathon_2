@@ -10,6 +10,7 @@ public interface TeamRepository extends CrudRepository<Team,Long> {
     List<Team> findAllByNameContains(String search);
     Team findByTeamID(Long teamid);
     List<Team> findAllByMentor_MentorID(Long mentorid);
+    List<Team> findAll();
 
     @Override
     <S extends Team> S save(S entity);

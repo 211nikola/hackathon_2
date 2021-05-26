@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>administrator!</title>
+</head>
+<body>
+
+<div class="container">
+  <h1  th:text="'Administrator with username: [' + ${administrator.username} + ']  - successfully logged in'"></h1>
+
+  <form th:object="${administrator}">
+    <div>
+      <label>Adminnistrator ID :</label>
+      <input readonly th:field="${administrator.administratorid}" type="text">
+    </div>
+    <div>
+      <label>Name:</label>
+      <input readonly th:field="${administrator.name}" type="text">
+    </div>
+    <div>
+      <label>Username:</label>
+      <input readonly th:field="${administrator.username}" type="text">
+    </div>
+    <div>
+      <label>Email address</label>
+      <input readonly th:field="${administrator.mail}" type="email">
+    </div>
+  </form>
+
+</div>
+</body>
+</html>

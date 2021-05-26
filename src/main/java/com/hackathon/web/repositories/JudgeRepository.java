@@ -10,6 +10,7 @@ public interface JudgeRepository extends CrudRepository<Judge,Long> {
     Judge findByNameContains(String search);
     Judge findByJudgeid(Long id);
     List<Judge> findAllByJudgeid(Long id);
+    Judge findByUsernameAndPassword(String username,String password);
 
 
     @Override

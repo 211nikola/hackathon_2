@@ -8,6 +8,9 @@ public interface HackathonService {
 
     Hackathon save(Hackathon hackathon);
     void delete(Hackathon hackathon);
+    List<Hackathon> findAll();
+    Hackathon findByHackathonid(Long id);
+
 
 
 }
