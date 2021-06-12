@@ -38,17 +38,20 @@ class MarkRepositoryTest {
         Team team = teamRepository.findByTeamID(7L);
        // judge.toString();
        // team.toString();
+
         Mark mark = new Mark(
                 new MarkId
                         (2L,team.getTeamID()),5,5,"ggg",5,judge,team);
         mark.setJudge(judge);
         markRepository.save(mark);
 
+
+
     }
 
     @Test
     void deleteById() {
-        markRepository.deleteById(new MarkId(2L,7L));
+        //markRepository.deleteById(new MarkId(2L,7L));
     }
 
     @Test

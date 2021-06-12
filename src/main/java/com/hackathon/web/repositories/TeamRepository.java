@@ -11,6 +11,7 @@ public interface TeamRepository extends CrudRepository<Team,Long> {
     Team findByTeamID(Long teamid);
     List<Team> findAllByMentor_MentorID(Long mentorid);
     List<Team> findAll();
+    List<Team> findAllByHackathon_Hackathonid(Long hackathonID);
 
     @Override
     <S extends Team> S save(S entity);

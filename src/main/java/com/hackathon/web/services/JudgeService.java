@@ -7,5 +7,6 @@ public interface JudgeService {
     Judge save(Judge judge);
     void delete(Judge judge);
     Judge findByUsernameAndPassword(String username,String password);
+    Judge findByJudgeid(Long id);
 
 }

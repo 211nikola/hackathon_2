@@ -35,4 +35,7 @@ public class Mark {
     @JoinColumn(name="teamid",insertable = false, updatable = false)
     @ToString.Exclude
     private Team team;
+
+
+
 }

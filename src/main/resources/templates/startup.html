@@ -9,8 +9,11 @@
 <div class="container">
     <h1>welcome to the hackahton managment software!!!!</h1>
 
-    <form th:action="@{'/login'}" method="post">
-        <button type="submit" >Go to the login</button>
+    <form th:action="@{'/administratorLogin'}" method="post">
+        <button type="submit" >Login as administrator</button>
+    </form>
+    <form th:action="@{'/judgeLogin'}" method="post">
+        <button type="submit" >Login as judge</button>
     </form>
 </div>
 </body>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>Mark</title>
+</head>
+<body>
+<div th:if="${mark.design != 0}" >
+  <form th:object="${mark}" modelAttribute="mark">
+    <div>
+      <label>Design:</label>
+      <input readonly th:field="${mark.design}" type="text" >
+    </div>
+    <div>
+      <label>Efficiency:</label>
+      <input readonly th:field="${mark.efficiency}" type="text" >
+    </div>
+    <div >
+      <label>Complexity:</label>
+      <input readonly th:field="${mark.complexity}" type="text" >
+    </div>
+    <div>
+      <label>Comment:</label>
+      <input readonly th:field="${mark.comment}" type="text" >
+    </div>
+    <div>
+      <p>You already marked this team.</p>
+    </div>
+  </form>
+</div>
+
+<div th:unless="${mark.design != 0}">
+
+  <form th:action="@{'/judge/findTeams/team/' + ${team.teamID} + '/saveMark'}" th:object="${markDTO}" method="post" modelAttribute="markDTO">
+    <div>
+      <label>Design:</label>
+      <input  th:field="${markDTO.design}" type="text" value="">
+    </div>
+    <div>
+      <label>Efficiency:</label>
+      <input  th:field="${markDTO.efficiency}" type="text" value="">
+    </div>
+    <div>
+      <label>Complexity:</label>
+      <input  th:field="${markDTO.complexity}" type="text" value="">
+    </div>
+    <div>
+      <label>Comment:</label>
+      <input  th:field="${markDTO.comment}" type="text">
+    </div>
+    <button type="submit" class="btn btn-success" value="submit">Save mark</button>
+  </form>
+
+</div>
+
+</body>
+</html>

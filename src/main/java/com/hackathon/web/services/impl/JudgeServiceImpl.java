@@ -29,4 +29,9 @@ public class JudgeServiceImpl implements JudgeService {
         return repository.findByUsernameAndPassword(username, password);
     }
 
+    @Override
+    public Judge findByJudgeid(Long id) {
+        return repository.findByJudgeid(id);
+    }
+
 }

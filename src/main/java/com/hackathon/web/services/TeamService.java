@@ -8,6 +8,9 @@ public interface TeamService {
     Team save(Team team);
     void delete(Team team);
     List<Team> findAll();
+    List<Team> findAllByHackathon_Hackathonid(Long hackathonID);
+    Team findByTeamID(Long teamid);
+
 
 
 }

@@ -15,8 +15,13 @@ public class StartupController {
         return "startup";
     }
 
-    @PostMapping("/login")
-    public String goToLogin(){
-        return "redirect:/login";
+    @PostMapping("/administratorLogin")
+    public String goToLoginAdministrator(){
+        return "administratorLogin";
+    }
+
+    @PostMapping("/judgeLogin")
+    public String goToLoginJudge(){
+        return "judgeLogin";
     }
 }

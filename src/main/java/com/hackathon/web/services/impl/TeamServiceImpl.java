@@ -31,4 +31,14 @@ public class TeamServiceImpl implements TeamService {
     public List<Team> findAll() {
         return repository.findAll();
     }
+
+    @Override
+    public List<Team> findAllByHackathon_Hackathonid(Long hackathonID) {
+        return repository.findAllByHackathon_Hackathonid(hackathonID);
+    }
+
+    @Override
+    public Team findByTeamID(Long teamid) {
+        return repository.findByTeamID(teamid);
+    }
 }
