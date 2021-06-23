@@ -37,5 +37,10 @@ public class HackathonServiceImpl implements HackathonService {
         return repository.findByHackathonid(id);
     }
 
+    @Override
+    public List<Hackathon> findAllByNameContains(String search) {
+        return repository.findAllByNameContains(search);
+    }
+
 
 }

@@ -5,6 +5,8 @@ import com.hackathon.web.repositories.JudgeRepository;
 import com.hackathon.web.services.JudgeService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class JudgeServiceImpl implements JudgeService {
     private final JudgeRepository repository;
@@ -24,6 +26,10 @@ public class JudgeServiceImpl implements JudgeService {
         repository.delete(judge);
     }
 
+
+
+
+
     @Override
     public Judge findByUsernameAndPassword(String username, String password) {
         return repository.findByUsernameAndPassword(username, password);
@@ -33,5 +39,28 @@ public class JudgeServiceImpl implements JudgeService {
     public Judge findByJudgeid(Long id) {
         return repository.findByJudgeid(id);
     }
+
+    @Override
+    public List<Judge> findAllByJudgeidIsNotIn(List<Long> ids) {
+        return repository.findAllByJudgeidIsNotIn(ids);
+    }
+
+
+
+    @Override
+    public Judge findByNameContains(String search) {
+        return repository.findByNameContains(search);
+    }
+
+    @Override
+    public List<Judge> findAllByNameContains(String search) {
+        return repository.findAllByNameContains(search);
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+        repository.deleteById(aLong);
+    }
+
 
 }

@@ -10,6 +10,7 @@ public interface HackathonService {
     void delete(Hackathon hackathon);
     List<Hackathon> findAll();
     Hackathon findByHackathonid(Long id);
+    List<Hackathon> findAllByNameContains(String search);
 
 
 

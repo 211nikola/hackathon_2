@@ -13,14 +13,16 @@
 
     </tr>
     <tr th:each="team : ${teams}">
-      <td th:text="${team.name}"></td>
-        <td>
-            <form  th:action="@{/judge/findTeams/team/} + ${{team.teamID}}"  method="get">
-                <button  type="submit">
-                    <i>Mark</i>
-                </button>
-            </form>
-        </td>
+          <td th:text="${team.name}">
+
+          </td>
+            <td>
+                <form  th:action="@{/judge/findTeams/team/} + ${{team.teamID}}"  method="get">
+                    <button  type="submit">
+                        <i>Mark</i>
+                    </button>
+                </form>
+            </td>
     </tr>
   </table>
 </div>

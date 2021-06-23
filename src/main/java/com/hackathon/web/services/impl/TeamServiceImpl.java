@@ -41,4 +41,19 @@ public class TeamServiceImpl implements TeamService {
     public Team findByTeamID(Long teamid) {
         return repository.findByTeamID(teamid);
     }
+
+    @Override
+    public List<Team> findAllByMentor_MentorID(Long mentorid) {
+        return repository.findAllByMentor_MentorID(mentorid);
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+        repository.deleteById(aLong);
+    }
+
+    @Override
+    public List<Team> findAllByNameContains(String search) {
+        return repository.findAllByNameContains(search);
+    }
 }

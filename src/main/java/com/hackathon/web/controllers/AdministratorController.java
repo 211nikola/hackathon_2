@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,13 @@ public class AdministratorController {
         return "administratorLogin";
     }
 
+
+
     @PostMapping("/administrator")
-    public String getAdministrator(@RequestParam String username
-            ,@RequestParam String password,
+    public String getAdministrator(
+                        @RequestParam String username
+                        ,@RequestParam String password,
+                          HttpSession session,
                           Model model) {
 
         Administrator administrator = administratorService.
@@ -39,6 +44,7 @@ public class AdministratorController {
             System.out.println("Administrator found!");
 
             model.addAttribute("administrator", administrator);
+            session.setAttribute("user",administrator);
             System.out.println(administrator.getAdministratorid());
 
             return "administrator";

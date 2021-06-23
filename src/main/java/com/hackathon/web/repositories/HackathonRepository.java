@@ -20,6 +20,8 @@ public interface HackathonRepository extends CrudRepository<Hackathon,Long>{
 
 
 
+
+
     @Transactional
     @Modifying
     Hackathon deleteByHackathonid(Long id);

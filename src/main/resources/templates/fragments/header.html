@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+    <title>Administrator</title>
+
+    <link rel="stylesheet" th:href="@{../style/header.css}">
+
+</head>
+<body>
+<div th:fragment="header">
+    <div class="navbar" >
+        <a href="#logout">Logout</a>
+
+        <div class="dropdown">
+            <button class="dropbtn">Hackathon
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a th:href="@{/administrator/searchHackathons}">Search</a>
+                <a th:href="@{/administrator/addHackathon}">Add</a>
+
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Judge
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a th:href="@{/administrator/searchJudges}">Search</a>
+                <a th:href="@{/administrator/addJudge}">Add</a>
+
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Mentor
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a th:href="@{/administrator/searchMentors}">Search</a>
+                <a th:href="@{/administrator/addMentor}">Add</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Team
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a th:href="@{/administrator/searchTeams}">Search</a>
+                <a th:href="@{/administrator/addTeam}">Add</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Member
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="dropdown-content">
+                <a th:href="@{/administrator/searchMembers}">Search</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

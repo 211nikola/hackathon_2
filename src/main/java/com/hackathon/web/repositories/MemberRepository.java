@@ -14,6 +14,10 @@ public interface MemberRepository extends CrudRepository<Member,Long> {
 
 
     List<Member> findAllByTeam_TeamID(Long teamid);
+    List<Member> findAll();
+    List<Member> findAllByNameContains(String search);
+    Member findById_MemberID(Long id);
+
 
     @Override
     <S extends Member> S save(S entity);

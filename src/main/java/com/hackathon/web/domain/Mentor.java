@@ -15,6 +15,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 @Entity
+@AllArgsConstructor
 public class Mentor {
 
     @Id
@@ -30,11 +31,11 @@ public class Mentor {
     private String profession;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="administratorid",insertable = false, updatable = false)
+    @JoinColumn(name="administratorid",insertable = true, updatable = true)
     private Administrator administrator;
 
 
-    @OneToMany(mappedBy="mentor",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="mentor",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @ToString.Exclude
     private Set<Team> teams;
 

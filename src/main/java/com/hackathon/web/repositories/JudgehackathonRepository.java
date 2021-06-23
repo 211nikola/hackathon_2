@@ -16,6 +16,13 @@ public interface JudgehackathonRepository extends CrudRepository<Judgehackathon,
     @Override
     <S extends Judgehackathon> S save(S entity);
 
+    List<Judgehackathon> findAll();
+
+    @Modifying
+    @Transactional
+    @Query("delete from Judgehackathon jh " +
+            "where  jh.id.judgeid=?1")
+    void deleteJudgehackathonByJudge_Judgeid(Long judgeid);
 
     @Modifying
     @Query("delete from Judgehackathon jh " +
@@ -37,6 +44,8 @@ public interface JudgehackathonRepository extends CrudRepository<Judgehackathon,
 
     @Query("SELECT jh FROM Judgehackathon jh join Judge j on jh.judge.judgeid= j.judgeid WHERE jh.hackathon.hackathonid = ?1")
     List<Judgehackathon> findAllByHackathon_Hackathonid(Long hID);
+
+
 
     List<Judgehackathon> findAllByJudge_Judgeid(Long hID);
     //List<Judgehackathon> findAllByHackathon_HackathonidAndIdIs(Long id);

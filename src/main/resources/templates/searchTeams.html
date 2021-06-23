@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Search teams</title>
+  <link rel="stylesheet" th:href="@{/style/header.css}">
+
+</head>
+<body>
+<div th:replace="fragments/header" :: header ></div>
+<div>
+  <label >Search for the team: </label>
+  <form th:action="@{'/administrator/searchTeams'}" method="post">
+    <div>
+
+      <input type="text" name="search" />
+      <input type="submit" value="Search"/>
+    </div>
+  </form>
+  <div th:if="${ not#lists.isEmpty(teams)}"> Result:
+    <table border="1">
+      <tr>
+        <th>Name</th>
+
+        <th>Details</th>
+        <th>Delete</th>
+      </tr>
+      <tr th:each="team : ${teams}">
+        <td><span th:text="${team.name}" ></span></td>
+
+        <td>
+          <form  th:action="@{/administrator/searchTeams/team/} + ${{team.teamID}}"  method="get">
+            <button  type="submit">
+              <i>Detalis</i>
+            </button>
+          </form>
+        </td>
+        <td>
+          <form  th:action="@{/administrator/delete/team/} + ${{team.teamID}}"  method="post">
+            <button  type="submit">
+              <i>Delete</i>
+            </button>
+          </form>
+        </td>
+
+      </tr>
+
+    </table>
+  </div>
+
+</div>
+
+
+</body>
+</html>

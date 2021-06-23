@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search hackathons</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+
+</head>
+<body>
+<div th:replace="fragments/header" :: header ></div>
+<div>
+    <label >Search for the hackathon: </label>
+    <form th:action="@{'/administrator/searchHackathons'}" method="post">
+        <div>
+
+            <input type="text" name="search" />
+            <input type="submit" value="Search"/>
+        </div>
+    </form>
+    <div th:if="${ not#lists.isEmpty(hackathons)}"> Result:
+        <table border="1">
+            <tr>
+                <th>Name</th>
+                <th>Date</th>
+                <th>Details</th>
+            </tr>
+            <tr th:each="hackathon : ${hackathons}">
+                <td><span th:text="${hackathon.name}" ></span></td>
+                <td><span th:text="${hackathon.date}" ></span></td>
+                <td>
+                    <form  th:action="@{/administrator/searchHackathons/hackathon/} + ${{hackathon.hackathonid}}"  method="get">
+                        <button  type="submit">
+                            <i>Detalis</i>
+                        </button>
+                    </form>
+                </td>
+
+            </tr>
+
+        </table>
+    </div>
+
+</div>
+
+
+</body>
+</html>

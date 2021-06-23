@@ -102,7 +102,7 @@ class JudgehackathonRepositoryTest {
 
     @Test
     void findAllByJudge_Judgeid() {
-        Judge judge = judgeRepository.findByJudgeid(3L);
+        Judge judge = judgeRepository.findByJudgeid(4L);
         List<Judgehackathon> judgehackathons =
                 judgehackathonRepository.findAllByJudge_Judgeid(judge.getJudgeid());
         for (Judgehackathon judgehackathon :

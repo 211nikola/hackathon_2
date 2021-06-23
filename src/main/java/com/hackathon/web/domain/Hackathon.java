@@ -1,17 +1,17 @@
 package com.hackathon.web.domain;
 
 import lombok.*;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString
 
+
+@ToString
 @Entity
 @AllArgsConstructor
 public class Hackathon {
@@ -21,6 +21,7 @@ public class Hackathon {
     private Long hackathonid;
 
     @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date date;
 
     private String name;

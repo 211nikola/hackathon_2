@@ -12,6 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Entity
+@AllArgsConstructor
 public class Judge {
 
     @Id
@@ -39,7 +40,7 @@ public class Judge {
     private Set<Mark> marks;
 
 
-    @OneToMany(mappedBy="judge",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="judge",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<Judgehackathon> judgehackathons;
 
 }

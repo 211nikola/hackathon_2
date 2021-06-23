@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Search members</title>
+  <link rel="stylesheet" th:href="@{/style/header.css}">
+
+</head>
+<body>
+<div th:replace="fragments/header" :: header ></div>
+<div>
+  <label >Search for the team: </label>
+  <form th:action="@{'/administrator/searchMembers'}" method="post">
+    <div>
+
+      <input type="text" name="search" />
+      <input type="submit" value="Search"/>
+    </div>
+  </form>
+  <div th:if="${ not#lists.isEmpty(members)}"> Result:
+    <table border="1">
+      <tr>
+        <th>Name</th>
+        <th>Last name</th>
+        <th>Mail</th>
+        <th>Role</th>
+
+        <th>Details</th>
+        <th>Delete</th>
+      </tr>
+      <tr th:each="member : ${members}">
+        <td><span th:text="${member.name}" ></span></td>
+        <td><span th:text="${member.lastName}" ></span></td>
+        <td><span th:text="${member.mail}" ></span></td>
+        <td><span th:text="${member.role}" ></span></td>
+
+        <td>
+          <form  th:action="@{/administrator/searchMembers/member/} + ${{member.id.memberID}}"  method="get">
+            <button  type="submit">
+              <i>Detalis</i>
+            </button>
+          </form>
+        </td>
+        <td>
+          <form  th:action="@{/administrator/delete/member/} + ${{member.id.memberID}}"  method="post">
+            <button  type="submit">
+              <i>Delete</i>
+            </button>
+          </form>
+        </td>
+
+      </tr>
+
+    </table>
+  </div>
+
+</div>
+
+
+</body>
+</html>

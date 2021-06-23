@@ -1,7 +1,10 @@
 package com.hackathon.web.repositories;
 
 import com.hackathon.web.domain.Team;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -13,6 +16,7 @@ public interface TeamRepository extends CrudRepository<Team,Long> {
     List<Team> findAll();
     List<Team> findAllByHackathon_Hackathonid(Long hackathonID);
 
+
     @Override
     <S extends Team> S save(S entity);
 
@@ -22,6 +26,14 @@ public interface TeamRepository extends CrudRepository<Team,Long> {
     @Override
     void deleteAll();
 
+
+
+
+
+    //custom @Query for delete all members by team ID
     @Override
+    @Transactional
+    @Modifying
+    @Query("delete from Team t where t.teamID=?1")
     void deleteById(Long aLong);
 }

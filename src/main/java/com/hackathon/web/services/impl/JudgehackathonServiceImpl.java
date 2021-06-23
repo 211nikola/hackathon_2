@@ -32,7 +32,22 @@ public class JudgehackathonServiceImpl implements JudgehackathonService {
     }
 
     @Override
+    public List<Judgehackathon> findAll() {
+        return repository.findAll();
+    }
+
+    @Override
     public List<Judgehackathon> findAllByJudge_Judgeid(Long hID) {
         return repository.findAllByJudge_Judgeid(hID);
+    }
+
+    @Override
+    public void deleteById(Long aLong) {
+        repository.deleteById(aLong);
+    }
+
+    @Override
+    public void deleteJudgehackathonByJudge_Judgeid(Long judgeid) {
+        repository.deleteJudgehackathonByJudge_Judgeid(judgeid);
     }
 }

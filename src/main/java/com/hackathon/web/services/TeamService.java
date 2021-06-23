@@ -10,6 +10,11 @@ public interface TeamService {
     List<Team> findAll();
     List<Team> findAllByHackathon_Hackathonid(Long hackathonID);
     Team findByTeamID(Long teamid);
+    List<Team> findAllByMentor_MentorID(Long mentorid);
+    void deleteById(Long aLong);
+    List<Team> findAllByNameContains(String search);
+
+
 
 
 

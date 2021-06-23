@@ -10,6 +10,7 @@ import javax.persistence.*;
 @ToString
 @EqualsAndHashCode
 @Entity
+@AllArgsConstructor
 public class Judgehackathon {
 
    @EmbeddedId

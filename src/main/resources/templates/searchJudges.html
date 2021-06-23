@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Search judges</title>
+  <link rel="stylesheet" th:href="@{/style/header.css}">
+
+</head>
+<body>
+<div th:replace="fragments/header" :: header ></div>
+<div>
+  <label >Search for the judges: </label>
+  <form th:action="@{'/administrator/searchJudges'}" method="post">
+    <div>
+
+      <input type="text" name="search" />
+      <input type="submit" value="Search"/>
+    </div>
+  </form>
+  <div th:if="${ not#lists.isEmpty(judges)}"> Result:
+    <table border="1">
+      <tr>
+        <th>Name</th>
+        <th>Name</th>
+        <th>Mail</th>
+        <th>Country</th>
+        <th>Details</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+      <tr th:each="judge : ${judges}">
+
+        <td><span th:text="${judge.name}" ></span></td>
+        <td><span th:text="${judge.lastName}" ></span></td>
+        <td><span th:text="${judge.mail}" ></span></td>
+        <td><span th:text="${judge.country}" ></span></td>
+
+        <td>
+          <form  th:action="@{/administrator/searchJudges/judge/} + ${{judge.judgeid}}"  method="get">
+            <button  type="submit">
+              <i>Detalis</i>
+            </button>
+          </form>
+        </td>
+
+        <td>
+          <form  th:action="@{/administrator/update/judge/} + ${{judge.judgeid}}"  method="get">
+            <button  type="submit">
+              <i>Update</i>
+            </button>
+          </form>
+        </td>
+
+        <td>
+          <form  th:action="@{/administrator/delete/judge/} + ${{judge.judgeid}}"  method="get">
+            <button  type="submit">
+              <i>Delete</i>
+            </button>
+          </form>
+        </td>
+
+      </tr>
+
+    </table>
+  </div>
+
+</div>
+
+
+</body>
+</html>
