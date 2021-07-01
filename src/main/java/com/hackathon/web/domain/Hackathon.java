@@ -31,7 +31,7 @@ public class Hackathon {
     @JoinColumn(name="administratorid",insertable = true, updatable = true)
     private Administrator administrator;
 
-
+    @ToString.Exclude
     @OneToMany(mappedBy="hackathon",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Judgehackathon> judgehackathons;
 

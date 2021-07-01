@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -14,18 +15,21 @@ import java.util.Set;
 @NoArgsConstructor
 @ToString
 @Entity
+@AllArgsConstructor
 public class Team {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="teamid")
     private Long teamID;
 
     private String name;
 
 
-
-    @OneToMany(mappedBy = "team",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    private Set<Member> members;
+    @ToString.Exclude
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name="teamid")
+    private List<Member> members;
 
 
 
@@ -36,19 +40,19 @@ public class Team {
 
 
     @ManyToOne
-    @JoinColumn(name = "mentorid",insertable = false, updatable = false)
+    @JoinColumn(name = "mentorid",insertable = true, updatable = true)
     @ToString.Exclude
     private Mentor mentor;
 
 
     @ManyToOne
-    @JoinColumn(name = "administratorid",insertable = false, updatable = false)
+    @JoinColumn(name = "administratorid",insertable = true, updatable = true)
     @ToString.Exclude
     private Administrator administrator;
 
 
     @ManyToOne
-    @JoinColumn(name = "hackathonid",insertable = false, updatable = false)
+    @JoinColumn(name = "hackathonid",insertable = true, updatable = true)
     @ToString.Exclude
     private Hackathon hackathon;
 }

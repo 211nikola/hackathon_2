@@ -1,5 +1,7 @@
 package com.hackathon.web.repositories;
 
+import com.hackathon.web.domain.Administrator;
+import com.hackathon.web.domain.Hackathon;
 import com.hackathon.web.domain.Mentor;
 import com.hackathon.web.domain.Team;
 import org.junit.jupiter.api.Test;
@@ -7,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,6 +23,12 @@ class TeamRepositoryTest {
 
     @Autowired
     TeamRepository teamRepository;
+
+    @Autowired
+    HackathonRepository hackathonRepository;
+
+    @Autowired
+    AdministratorRepository administratorRepository;
 
     @Test
     void findAllByNameContains() {
@@ -40,6 +50,14 @@ class TeamRepositoryTest {
 
     @Test
     void save() {
+
+        Administrator administrator = administratorRepository.findByAdministratorid(1L);
+        Mentor mentor = mentorRepository.findByMentorID(8L);
+        Hackathon hackathon = hackathonRepository.findByHackathonid(5L);
+
+        Team team = new Team(0L,"tim test",new ArrayList<>(),new HashSet<>(),mentor,administrator,hackathon);
+        Team savedTeam = teamRepository.save(team);
+        System.out.println(savedTeam.getTeamID());
     }
 
     @Test

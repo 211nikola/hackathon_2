@@ -19,6 +19,8 @@ public interface MemberRepository extends CrudRepository<Member,Long> {
     Member findById_MemberID(Long id);
 
 
+    @Transactional
+    @Modifying
     @Override
     <S extends Member> S save(S entity);
 

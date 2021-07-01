@@ -1,6 +1,7 @@
 package com.hackathon.web.services;
 
 import com.hackathon.web.domain.Team;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -13,6 +14,8 @@ public interface TeamService {
     List<Team> findAllByMentor_MentorID(Long mentorid);
     void deleteById(Long aLong);
     List<Team> findAllByNameContains(String search);
+    Team insertTeam(@Param("name") String name, @Param("adminID") Long adminID,
+                    @Param("hackathonID") Long hackathonID, @Param("mentorID") Long mentorID);
 
 
 

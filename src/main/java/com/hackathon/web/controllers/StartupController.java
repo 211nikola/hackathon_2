@@ -15,6 +15,7 @@ public class StartupController {
         return "startup";
     }
 
+
     @PostMapping("/administratorLogin")
     public String goToLoginAdministrator(){
         return "administratorLogin";

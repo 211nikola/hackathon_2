@@ -56,4 +56,9 @@ public class TeamServiceImpl implements TeamService {
     public List<Team> findAllByNameContains(String search) {
         return repository.findAllByNameContains(search);
     }
+
+    @Override
+    public Team insertTeam(String name, Long adminID, Long hackathonID, Long mentorID) {
+        return repository.insertTeam(name,adminID,hackathonID,mentorID);
+    }
 }

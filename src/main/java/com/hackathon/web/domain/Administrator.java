@@ -40,13 +40,14 @@ public class Administrator {
 
 
     @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ToString.Exclude
     private Set<Hackathon> hackathons;
 
-
+    @ToString.Exclude
     @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Mentor> mentors;
 
-
+    @ToString.Exclude
     @OneToMany(mappedBy="administrator",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     private Set<Judgehackathon> judgehackathons;
 

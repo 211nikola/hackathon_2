@@ -1,0 +1,76 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+  <title>Students</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <form th:object="${student}" th:action="@{/student/create}" action="#" method="post">
+
+    <div class="row">
+      <div class="col-md-offset-3 col-md-6">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Add New Student</h3>
+          </div>
+          <div class="panel-body">
+            <input type="text" th:field="*{studentId}" class="form-control" placeholder="Student Id" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <input type="text" th:field="*{firstName}" class="form-control" placeholder="First Name" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <input type="text" th:field="*{lastName}" class="form-control" placeholder="Last Name" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <input type="text" th:field="*{city}" class="form-control" placeholder="City" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <input type="submit" class="btn btn-success pull-right"
+                   value="Save">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- start of detail section -->
+    <div class="row" style="margin-bottom: 50px;">
+      <div class="col-md-offset-2 col-md-8">
+        <div class="panel panel-success">
+          <div class="panel-heading">
+            <h3 class="panel-title">Student Courses</h3>
+          </div>
+          <div class="panel-body">
+            <table class="table table-bordered table-striped table-hover">
+              <thead>
+              <tr class="btn-success">
+                <th>Course</th>
+                <th>End Date</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="studentCourse, rowStat : *{studentCourses}">
+                <td></td>
+                <td><input type="text" class="form-control" th:field="*{studentCourses[__${rowStat.index}__].courseId}" placeholder="Course" /></td>
+                <td><input type="text" class="form-control" th:field="*{studentCourses[__${rowStat.index}__].endDate}"  placeholder="End Date"/>
+                  <span class="col-sm-1 row-delete-button">
+                                        <button class="btn btn-default" th:value="*{studentCourses[__${rowStat.index}__].studentCourseId}" name="removeStudentCourse">
+                                            <i class="glyphicon glyphicon-trash icon-white"></i>
+                                        </button>
+                                </span>
+
+              </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-success btn-add" type="submit" name="addCourse">
+              <i class="glyphicon glyphicon-plus gs"></i> <b> Add</b>
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+      <!-- end of detail  -->
+  </form>
+</div>
+</body>
+</html>

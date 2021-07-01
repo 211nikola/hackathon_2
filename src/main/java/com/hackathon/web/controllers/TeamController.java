@@ -4,16 +4,17 @@ import com.hackathon.web.domain.*;
 import com.hackathon.web.domainDTO.MarkDTO;
 import com.hackathon.web.services.*;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.type.LongType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import javax.validation.constraints.NotNull;
+import java.util.*;
 
 @Slf4j
 @Controller
@@ -139,7 +140,7 @@ public class TeamController {
 
     }
 
-    @GetMapping("/administrator/teams")
+    @GetMapping("/administrator/searchTeams")
     public String searchTeams() {
 
         return "searchTeams";
@@ -198,80 +199,152 @@ public class TeamController {
         return "searchTeams";
     }
 
-    @GetMapping("/administrator/addTeam")
-    public String addTeam(Model model){
 
-        model.addAttribute("team",new Team());
-        model.addAttribute("hackathons",hackathonService.findAll());
-        model.addAttribute("mentors",mentorService.findAll());
-        model.addAttribute("member",new Member());
-        return "team";
-    }
+    @RequestMapping(value="/administrator/addTeam", params = {"removeMember"})
+    public String removeMember(@Valid @ModelAttribute Team team, BindingResult result,
+                               Model model,
+                               HttpServletRequest request) {
 
-
-    // smisliti kako kreirati nove clanove na formi i dadati u tim i zatim sve sacuvati
-    //sa jedne stranice addTeam
-
-    @PostMapping("/administrator/administrator/updateTeam")
-    public String addMember(Model model,final Team team,@RequestParam @Valid Member member) {
-        Member memberToAdd = member;
-        Random random = new Random();
-        memberToAdd.getId().setMemberID((long) (random.nextInt(-1) -100));
-
-        team.getMembers().add(memberToAdd);
-        model.addAttribute("team",team);
-        model.addAttribute("members",team.getMembers());
-        return "updateTeam";
-    }
-
-    @GetMapping("/administrator/administrator/updateTeam")
-    public String updateTeam(Model model,@RequestParam Team team){
-        model.addAttribute("team",team);
-        model.addAttribute("hackathons",hackathonService.findAll());
-        model.addAttribute("mentors",mentorService.findAll());
-        model.addAttribute("members",team.getMembers());
-     return "updateTeam";
-    }
-    @RequestMapping(value = "/administrator/updateTeam/", params = {
-            "removeMember" }, method = RequestMethod.POST)
-    public String removeRow(final Team team, final HttpServletRequest req,
-                            Model model) {
-
-        final Long memberID = Long.valueOf(req.getParameter("removeMember"));
+        final Long memberID = Long.valueOf(request.getParameter("removeMember"));
 
         for (Member member : team.getMembers()) {
-            if (member.getId().getMemberID().equals(memberID) ){
+            if (member.getId().getMemberID().equals(memberID)) {
                 team.getMembers().remove(member);
                 break;
             }
         }
 
-        if (memberID > 0)
-            memberService.deleteById(memberID);
+        model.addAttribute("hackathons",hackathonService.findAll());
+        model.addAttribute("mentors",mentorService.findAll());
 
-        model.addAttribute("team",team);
-        model.addAttribute("members",team.getMembers());
-        return "updateTeam";
+        return "team";
     }
+    @RequestMapping(value="/administrator/addTeam", params = {"addMember"})
+    public String addMember(@Valid @ModelAttribute Team team, BindingResult result,Model model,HttpServletRequest request) {
 
-    @PostMapping ("/administrator/addTeam/addMember")
-    public String addMemberToTeam(){
+        System.out.println("add new member");
+        team.setHackathon(team.getHackathon());
+        team.setMentor(team.getMentor());
 
-        return "redirect:/team";
-    }
-    @PostMapping("/administrator/addTeam")
-    public String saveTeam(Model model,
-                           BindingResult bindingResult,
-                           @Valid
-                           @RequestParam Team team,
-                           @Valid
-                           @RequestParam(required = false) Member member,
-                           HttpServletRequest request){
+        if(team.getMembers() == null){
+            team.setMembers(new ArrayList<>());
+        }
 
-        Administrator administrator = (Administrator) request.getSession().getAttribute("user");
+        if(team.getAdministrator() == null){
+            Administrator administrator = (Administrator) request.getSession().getAttribute("user");
+            team.setAdministrator(administrator);
+        }
+
+
+        Member member = new Member();
+        member.setId(new MemberId());
+        member.setTeam(team);
+
+        member.getId().setMemberID(randomNegativeId());
+        team.getMembers().add(member);
+
+
+
+        model.addAttribute("hackathons",hackathonService.findAll());
+        model.addAttribute("mentors",mentorService.findAll());
+
 
 
 
         return "team";
+    }
+
+    @GetMapping("/administrator/addTeam")
+    public String addTeam(Model model){
+
+        Team team = new Team();
+
+        team.setTeamID(-1L);
+
+
+
+        model.addAttribute("team",team);
+        model.addAttribute("hackathons",hackathonService.findAll());
+        model.addAttribute("mentors",mentorService.findAll());
+
+        return "team";
+    }
+
+
+    @PostMapping("/administrator/updateTeam")
+    public String addMember(Model model,@Valid @RequestParam(required = false) Team team,
+                            @ModelAttribute Team team1,@RequestParam(required = false) @Valid Member member
+    ) {
+        Member memberToAdd = member;
+
+        Team teamToUpdate = new Team();
+        teamToUpdate.setName("sadasdasd");
+        teamToUpdate.setTeamID(-1L);
+        teamToUpdate.setMembers(new ArrayList<>());
+        teamToUpdate.getMembers().add(new Member());
+
+        List<Member> members = new ArrayList<>();
+        teamToUpdate.getMembers().iterator().forEachRemaining(members::add);
+
+
+        model.addAttribute("team",teamToUpdate);
+        model.addAttribute("members",teamToUpdate.getMembers());
+        model.addAttribute("hackathons",hackathonService.findAll());
+        model.addAttribute("mentors",mentorService.findAll());
+        model.addAttribute("members",teamToUpdate.getMembers());
+
+        return "team";
+    }
+
+
+
+
+    @PostMapping("/administrator/addTeam")
+    public String saveTeam(Model model,
+                          @NotNull @Valid
+                           @ModelAttribute Team team,
+                           RedirectAttributes atts,
+                           BindingResult bindingResult,
+                           HttpServletRequest request){
+
+        if(team.getAdministrator() == null){
+            Administrator administrator = (Administrator) request.getSession().getAttribute("user");
+            team.setAdministrator(administrator);
+        }
+
+
+        Team teamForSave = new Team(0L,team.getName(),new ArrayList<>(),new HashSet<>(), team.getMentor(), team.getAdministrator(), team.getHackathon());
+
+
+
+        Team savedTeam = teamService.save(teamForSave);
+        savedTeam.setMembers(team.getMembers());
+
+
+        if(team.getMembers() != null ) {
+            for (Member m :
+                    team.getMembers()) {
+
+                m.setTeam(savedTeam);
+                m.setId(new MemberId(Long.valueOf(randomMemberId()),savedTeam.getTeamID()));
+
+            }
+        }
+        teamService.save(savedTeam);
+
+        model.addAttribute("members",team.getMembers());
+        model.addAttribute("team",savedTeam);
+        model.addAttribute("message", "Team created successfully");
+
+        return "team";
+    }
+
+    public Long randomNegativeId() {
+        Random rand = new Random();
+        return -1 * ((long) rand.nextInt(1000));
+    }
+    public Long randomMemberId() {
+        Random rand = new Random();
+        return (long) (rand.nextInt(1000) + 1);
     }
 }

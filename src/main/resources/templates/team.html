@@ -11,7 +11,7 @@
 
 <div class="container">
 
-  <div th:if="${team.teamID != null}">
+  <div th:if="${team.teamID > 0 }">
     <div><h1>Details for team:</h1></div>
 
     <form  th:object="${team}" >
@@ -66,99 +66,116 @@
 
 
     </form>
+    <div class="alert alert-info" th:if="${message}">
+      <h3 th:text="${message}"></h3>
+    </div>
 
   </div>
 
 
-<div th:unless="${team.teamID != null}">
+<div th:unless="${team.teamID >  0}">
   <div><h1>Enter details for team:</h1></div>
 
-  <form  th:object="${team}" th:action="@{/administrator/addTeam}" method="post">
-
-    <div class="form-group">
-      <label >Name:</label>
-      <input  th:field="${team.name}" type="text" >
-    </div>
-
+  <form th:object="${team}" th:action="@{/administrator/addTeam}" action="#" method="post">
 
     <div>
-      <form th:action="@{'/judge/findHackathons'}" method="get">
+      <div>
         <div>
-          <label >Hackathon:</label>
-          <select name="hackathon">
-            <option th:each="hackathon : ${hackathons}"
-                    th:value="${hackathon.hackathonid}" th:text="${hackathon.name}">hackathon</option>
+          <div>
+            <h3>Add New Team</h3>
+          </div>
+          <div>
+            <label >Team id:</label>
+            <input readonly type="text" th:field="*{teamID}" class="form-control" placeholder="team id" />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <label >Name:</label>
+            <input  type="text" th:field="*{name}"   />
+            <div style="clear: both; display: block; height: 10px;"></div>
+            <div>
+              <label >Hackathon:</label>
+              <select name="hackathon" th:field="*{hackathon}">
+                <option th:each="hackathon : ${hackathons}"
+                        th:value="${hackathon.hackathonid}" th:text="${hackathon.name}">hackathon</option>
 
-          </select>
+              </select>
+            </div>
+            <div style="clear: both; display: block; height: 10px;"></div>
+
+
+          </div>
+
+          <div class="form-group">
+
+            <div>
+              <label >Mentor:</label>
+              <select name="mentor" th:field="*{mentor}">
+                <option th:each="mentor : ${mentors}"
+                        th:value="${mentor.mentorID}" th:text="${mentor.name}" th:name="mentor">mentor</option>
+
+              </select>
+            </div>
+            <div style="clear: both; display: block; height: 10px;"></div>
+
+            <input type="submit"
+                   value="Save">
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <!-- start of detail section -->
+    <div >
+      <div >
+        <div >
+          <div >
+            <h3 >Team members</h3>
+          </div>
+          <div >
+            <table border="1" >
+              <thead>
+              <tr >
+                <th  >Member ID </th>
+                <th >Name </th>
+                <th >Last name</th>
+                <th >Mail</th>
+                <th >Role</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="member, rowStat : *{members}">
+
+                <td><input readonly type="text"  th:field="*{members[__${rowStat.index}__].id.memberID}"  /></td>
+                <td><input type="text"  th:field="*{members[__${rowStat.index}__].name}" />
+                <td><input type="text"  th:field="*{members[__${rowStat.index}__].lastName}" />
+                <td><input type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
+                <td><input type="text"  th:field="*{members[__${rowStat.index}__].role}" />
+                  <span >
+                                        <button  th:value="*{members[__${rowStat.index}__].id.memberID}" name="removeMember">
+                                            <i >Delete</i>
+                                        </button>
+                                </span>
+
+              </tr>
+              </tbody>
+            </table>
+            <button  type="submit" name="addMember">
+              <i></i> <b> Add</b>
+            </button>
+          </div>
+
         </div>
 
-      </form>
-
+      </div>
     </div>
-
-    <div class="form-group">
-      <form th:action="@{'/mentor/findMentors'}" method="get">
-        <div>
-          <label >Mentor:</label>
-          <select name="mentor">
-            <option th:each="mentor : ${mentors}"
-                    th:value="${mentor.mentorID}" th:text="${mentor.name}">mentor</option>
-
-          </select>
-        </div>
-
-      </form>
-
-    </div>
-    <div>
-      <form th:action="@{administrator/updateTeam}" method="post">
-        <table  border="1"  >
-          <tr>
-
-            <th >Name </th>
-            <th >Last name</th>
-            <th >Mail</th>
-            <th >Role</th>
-          </tr>
-          <tr th:each="member, rowStat : *{members}">
-
-            <td><input type="text"
-                       th:field="*{members[__${rowStat.index}__].name}"/></td>
-            <td><input type="text"
-                       th:field="*{members[__${rowStat.index}__].lastName}"/>
-            <td><input type="text"
-                       th:field="*{members[__${rowStat.index}__].mail}"/>
-            <td><input type="text"
-                       th:field="*{members[__${rowStat.index}__].role}"/>
-              <span >
-                               <button type="submit"
-                                       th:value="*{members[__${rowStat.index}__].id.memberID}">
-
-                                   <i > Delete</i>
-                               </button>
-                            </span>
-            </td>
-          </tr>
-        </table>
-        <button th:type="submit"
-                name="addMember"
-                >
-          <i > Add member</i>
-        </button>
-      </form>
-
-    </div>
-
-
+    <!-- end of detail  -->
   </form>
 
 </div>
-    <button type="submit" >Save</button>
-  </form>
+
 </div>
 
 
-</div>
+
 
 
 </body>
