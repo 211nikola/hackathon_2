@@ -22,13 +22,13 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/administrator/searchMembers")
+    @GetMapping("/administrator/search/members")
     public String searchMembers(Model model){
         model.addAttribute("member",new Member());
         return "searchMembers";
     }
 
-    @PostMapping("/administrator/searchMembers")
+    @PostMapping("/administrator/search/members")
     public String searchMembers(Model model,@RequestParam String search){
         model.addAttribute("members",memberService.findAllByNameContains(search));
         return "searchMembers";

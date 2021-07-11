@@ -4,6 +4,9 @@ import lombok.*;
 import org.hibernate.annotations.OptimisticLockType;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import static javax.persistence.CascadeType.*;
 
@@ -20,12 +23,19 @@ public class Member {
     @EmbeddedId
     private MemberId id;
 
+    @NotBlank
+    @Size(min = 2, max = 255)
     private String name;
 
+    @Email
     private String mail;
 
+    @NotBlank
+    @Size(min = 2, max = 255)
     private String lastName;
 
+    @NotBlank
+    @Size(min = 2, max = 255)
     private String role;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade={CascadeType.PERSIST,CascadeType.REMOVE})

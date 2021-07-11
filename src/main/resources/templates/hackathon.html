@@ -6,8 +6,6 @@
 
   <link rel="stylesheet" th:href="@{/style/header.css}">
 
-
-
 </head>
 <body>
 
@@ -29,6 +27,10 @@
       <div>
         <label>Date:</label>
         <input readonly th:field="${hackathon.date}" type="date">
+                    <!--
+                    ovo gore ne prikazuje na details  posle searcha a posle save prikazuje
+           <span th:text="${hackathon.date}" ></span> ovo prikazuje
+            -->
       </div>
       <div>
         <label>Hackathon administrator:</label>
@@ -68,35 +70,42 @@
         </table>
       </div>
 
-
-
     </form>
+
+    <div class="alert alert-info" th:if="${message}">
+      <h3 th:text="${message}"></h3>
+    </div>
+
   </div>
 
   <div th:unless="${hackathon.hackathonid != null}">
-    <form th:action="@{'/administrator/saveHackathon'}" th:object="${hackathon}" method="post">
+    <form th:action="@{'/administrator/create/hackathon'}" th:object="${hackathon}" method="post">
       <div><h1>Create a new hackathon:</h1></div>
 
       <div>
         <label>Name:</label>
-        <input  th:field="${hackathon.name}" type="text">
+        <input  required th:field="${hackathon.name}" type="text">
       </div>
       <div>
         <label>Date:</label>
-        <input  th:field="${hackathon.date}" type="date">
+        <input required th:field="${hackathon.date}" type="date">
       </div>
 
       <div th:if="${not#lists.isEmpty(judges)}"> Select available judges to add:
+
         <table border="1" >
+
           <tr>
+
             <th>Name </th>
             <th>Lastname </th>
             <th>Mail </th>
             <th>Country </th>
 
-
           </tr>
+
           <tr th:each="judge : ${judges}">
+
             <td th:text="${judge.name}"></td>
             <td th:text="${judge.lastName}"></td>
             <td th:text="${judge.mail}"></td>
@@ -108,6 +117,7 @@
                 </input>
 
             </td>
+
           </tr>
 
         </table>
@@ -119,6 +129,9 @@
 
 
       <button type="submit" >Save</button>
+      <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+        <p>Please correct your input</p>
+      </div>
     </form>
   </div>
 

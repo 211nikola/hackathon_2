@@ -3,13 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <title>judge!</title>
+  <link rel="stylesheet" th:href="@{/style/header.css}">
+
 </head>
 <body>
 
-<div class="container">
-  <h1 class="text-success" th:text="'Judge with username: [' + ${judge.username} + ']  - successfully logged in'"></h1>
+<div th:replace="fragments/header_judge :: header"></div>
 
-  <form  th:object="${judge}" >
+<div class="container">
+
+  <h1  th:if="${judge.username != null}" class="text-success" th:text="'Judge with username: [' + ${judge.username} + ']  - successfully logged in'"></h1>
+
+  <form  th:object="${judge}" th:action="@{'/judge/teams'}" method="post">
     <div class="form-group">
       <label >judge ID :</label>
       <input readonly th:field="${judge.judgeid}" type="text" >
@@ -28,40 +33,32 @@
       <input readonly th:field="${judge.mail}" type="email" >
     </div>
 
-    <form th:action="@{'/judge/findTeams'}" method="get">
-    <div>
+
+    <div th:if="${ not#lists.isEmpty(hackathons)}">
       <label >Hackathon</label>
       <select name="hackathon">
         <option th:each="hackathon : ${hackathons}"
                 th:value="${hackathon.hackathonid}" th:text="${hackathon.name}">hackathon</option>
-
       </select>
-    </div>
       <button type="submit" >Find teams</button>
-    </form>
+    </div>
+
+    <div th:unless="${ not#lists.isEmpty(hackathons)}">
+      <label>This judge is not participating on hackathons.</label>
+    </div>
+
 
     <div th:if="${ not#lists.isEmpty(teams)}">
       <table border="1" >
         <tr>
           <th>Team name </th>
-
-
         </tr>
         <tr th:each="team : ${teams}">
           <td th:text="${team.name}"></td>
         </tr>
         </table>
     </div>
-
-
-
   </form>
-
-
-
-
 </div>
-
-
 </body>
 </html>

@@ -3,9 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <title>Mark</title>
+  <link rel="stylesheet" th:href="@{/style/header.css}">
 </head>
 <body>
+<div th:replace="fragments/header_judge :: header"></div>
 <div th:if="${mark.design != 0}" >
+  <div><h1>Mark details:  </h1></div>
   <form th:object="${mark}" modelAttribute="mark">
     <div>
       <label>Design:</label>
@@ -24,31 +27,34 @@
       <input readonly th:field="${mark.comment}" type="text" >
     </div>
     <div>
-      <p>You already marked this team.</p>
+      <div class="alert alert-info" th:if="${message}">
+        <h3 th:text="${message}"></h3>
+      </div>
     </div>
   </form>
 </div>
 
 <div th:unless="${mark.design != 0}">
-
+  <div><h1>Please mark this team:</h1></div>
   <form th:action="@{'/judge/findTeams/team/' + ${team.teamID} + '/saveMark'}" th:object="${markDTO}" method="post" modelAttribute="markDTO">
     <div>
       <label>Design:</label>
-      <input  th:field="${markDTO.design}" type="text" value="">
+      <input  th:field="${markDTO.design}" type="number" value="" min="1" max="5" required>
     </div>
     <div>
       <label>Efficiency:</label>
-      <input  th:field="${markDTO.efficiency}" type="text" value="">
+      <input  th:field="${markDTO.efficiency}" type="number" value="" min="1" max="5" required>
     </div>
     <div>
       <label>Complexity:</label>
-      <input  th:field="${markDTO.complexity}" type="text" value="">
+      <input  th:field="${markDTO.complexity}" type="number" value="" min="1" max="5" required>
     </div>
     <div>
       <label>Comment:</label>
-      <input  th:field="${markDTO.comment}" type="text">
+      <input  th:field="${markDTO.comment}" type="text" required>
     </div>
 
+    <button type="submit" >Mark team</button>
   </form>
 
 </div>

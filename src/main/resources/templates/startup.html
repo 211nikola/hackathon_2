@@ -2,12 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>welcome to the hackahton managment software!</title>
+    <title>Welcome</title>
 </head>
 <body>
 
 <div class="container">
-    <h1>welcome to the hackahton managment software!!!!</h1>
+    <h1>Welcome to the hackathon managment software.</h1>
 
     <form th:action="@{'/administratorLogin'}" method="post">
         <button type="submit" >Login as administrator</button>
@@ -15,6 +15,11 @@
     <form th:action="@{'/judgeLogin'}" method="post">
         <button type="submit" >Login as judge</button>
     </form>
+
+    <div th:if="${message_logout}">
+        You have been logged out.
+    </div>
+
 </div>
 </body>
 </html>

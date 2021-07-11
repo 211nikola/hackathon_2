@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://   thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Login</title>
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
-</div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
+<h1>Login:</h1>
+
 <form th:action="@{'/administrator'}" method="post">
-    <div><label> User Name : <input type="text" name="username" value="test"/> </label></div>
-    <div><label> Password: <input type="password" name="password" value="test"/> </label></div>
+    <div><label> User Name : <input  required type="text" name="username" value="test"/> </label></div>
+    <div><label> Password: <input  required type="password" name="password" value="test"/> </label></div>
     <div><input type="submit" value="Login"/></div>
+
 </form>
+<div class="alert alert-info" th:if="${message}">
+    <h3 th:text="${message}"></h3>
+</div>
 </body>
 </html>

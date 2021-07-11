@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org" >
+<head>
+  <meta charset="UTF-8">
+  <title>Teams</title>
+  <link rel="stylesheet" th:href="@{/style/header.css}">
+
+</head>
+<body>
+<div th:replace="fragments/header_judge :: header"></div>
+<div th:if="${ not#lists.isEmpty(marks)}">
+  <table border="1">
+    <tr>
+      <th>Design</th>
+      <th>Efficiency</th>
+      <th>Complexity</th>
+      <th>Comment</th>
+      <th>Team</th>
+    </tr>
+    <tr th:each="mark : ${marks}">
+      <td><span th:text="${mark.design}" ></span></td>
+      <td><span th:text="${mark.efficiency}" ></span></td>
+      <td><span th:text="${mark.complexity}" ></span></td>
+      <td><span th:text="${mark.comment}" ></span></td>
+      <td><span th:text="${mark.team.name}" ></span></td>
+    </tr>
+
+  </table>
+</div>
+<div th:unless="${ not#lists.isEmpty(marks)}">
+  <p>There are no marks .</p>
+</div>
+
+</body>
+</html>

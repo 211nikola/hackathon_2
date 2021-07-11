@@ -3,6 +3,8 @@ package com.hackathon.web.domain;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -22,8 +24,11 @@ public class Hackathon {
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @NotBlank
     private Date date;
 
+    @NotBlank
+    @Size(min = 2, max = 255)
     private String name;
 
 

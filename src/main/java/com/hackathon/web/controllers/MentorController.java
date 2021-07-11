@@ -4,6 +4,7 @@ import com.hackathon.web.domain.*;
 import com.hackathon.web.services.MemberService;
 import com.hackathon.web.services.MentorService;
 import com.hackathon.web.services.TeamService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.*;
 
+@Slf4j
 @Controller
 public class MentorController {
     private final MentorService mentorService;
@@ -31,7 +33,7 @@ public class MentorController {
         return mentorService.findAll();
     }
 
-    @GetMapping("/administrator/addMentor")
+    @GetMapping("/administrator/create/mentor")
     public String addMentor(Model model){
         model.addAttribute("mentor",new Mentor());
         return "mentor";
@@ -42,6 +44,14 @@ public class MentorController {
                             @Valid @ModelAttribute Mentor mentor,
                             BindingResult bindingResult,
                             HttpServletRequest request){
+
+        if (bindingResult.hasErrors()) {
+            log.warn("CANNOT SAVE:");
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.warn(objectError.toString());
+            });
+            return "mentor";
+        }
 
         Administrator administrator = (Administrator) request.getSession().getAttribute("user");
         System.out.println(administrator.getName());
@@ -58,6 +68,7 @@ public class MentorController {
         m.setAdministrator(administrator);
         Mentor savedMentor = mentorService.save(m);
         model.addAttribute("mentor",savedMentor);
+        model.addAttribute("message","Mentor created successfully.");
 
         return "mentor";
     }
@@ -90,7 +101,6 @@ public class MentorController {
         return "mentor";
     }
 
-
     @GetMapping("/administrator/searchMentors/mentor/{id}")
     public String getMentor(Model model,
                             @PathVariable String id
@@ -105,13 +115,13 @@ public class MentorController {
         return "mentor";
     }
 
-    @GetMapping("administrator/searchMentors")
+    @GetMapping("administrator/search/mentors")
     public String searchMentors(Model model){
         model.addAttribute("mentor",new Mentor());
         return "searchMentors";
     }
 
-    @PostMapping("/administrator/searchMentors")
+    @PostMapping("/administrator/search/mentors")
     public String searchMentors(Model model,@RequestParam String search){
         model.addAttribute("mentors", mentorService.findAllByNameContains(search));
         return "searchMentors";

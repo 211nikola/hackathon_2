@@ -12,6 +12,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Embeddable
+@Getter
+@Setter
 public class MarkId implements Serializable {
 
 

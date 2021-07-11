@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -23,6 +25,8 @@ public class Team {
     @Column(name="teamid")
     private Long teamID;
 
+    @NotBlank
+    @Size(min = 2, max = 255)
     private String name;
 
 

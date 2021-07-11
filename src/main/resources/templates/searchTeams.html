@@ -10,7 +10,7 @@
 <div th:replace="fragments/header" :: header ></div>
 <div>
   <label >Search for the team: </label>
-  <form th:action="@{'/administrator/searchTeams'}" method="post">
+  <form th:action="@{'/administrator/search/teams'}" method="post">
     <div>
 
       <input type="text" name="search" />
@@ -36,7 +36,7 @@
           </form>
         </td>
         <td>
-          <form  th:action="@{/administrator/delete/team/} + ${{team.teamID}}"  method="post">
+          <form onsubmit="return confirm('Are you sure?');" th:action="@{/administrator/delete/team/} + ${{team.teamID}}"  method="post">
             <button  type="submit">
               <i>Delete</i>
             </button>
@@ -49,6 +49,7 @@
   </div>
 
 </div>
+
 
 
 </body>

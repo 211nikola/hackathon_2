@@ -3,8 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Teams</title>
+    <link rel="stylesheet" th:href="@{/style/header.css}">
+
 </head>
 <body>
+<div th:replace="fragments/header_judge :: header"></div>
 <div th:if="${ not#lists.isEmpty(teams)}">
   <table border="1" >
     <tr>

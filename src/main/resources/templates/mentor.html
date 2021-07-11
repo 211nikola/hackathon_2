@@ -35,10 +35,11 @@
         <input  th:field="${mentor.profession}" type="text" >
       </div>
 
-
-
-
       <button type="submit" class="btn btn-success" value="submit">Save mentor</button>
+
+      <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+        <p>Please correct your input</p>
+      </div>
 
 
     </form>
@@ -87,6 +88,9 @@
 
 
     </form>
+    <div class="alert alert-info" th:if="${message}">
+      <h3 th:text="${message}"></h3>
+    </div>
 
   </div>
 

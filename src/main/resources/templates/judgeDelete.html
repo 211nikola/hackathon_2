@@ -16,7 +16,7 @@
 <div class="container">
 
   <div >
-    <form th:action="@{'/administrator/delete/judge/' + ${judge.judgeid}}" th:object="${judge}" method="post">
+    <form onsubmit="return confirm('Are you sure?');" th:action="@{'/administrator/delete/judge/' + ${judge.judgeid}}" th:object="${judge}" method="post">
       <div><h1>Delete judge:</h1></div>
 
       <div>

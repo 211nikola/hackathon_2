@@ -13,6 +13,10 @@ public interface MarkService {
     List<Mark> findAll();
     void deleteById(Long aLong);
     void deleteByJudge_Judgeid(Long id);
+    List<Mark> findAllByTeam_TeamID(Long teamid);
+    List<Mark> findAllByJudge_Judgeid(Long judgeid);
+
+
 
 
 

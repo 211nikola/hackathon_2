@@ -9,7 +9,7 @@
 
 <div th:replace="fragments/header :: header"></div>
 
-<div class="container">
+<div class="">
 
   <div th:if="${team.teamID > 0 }">
     <div><h1>Details for team:</h1></div>
@@ -89,13 +89,14 @@
             <input readonly type="text" th:field="*{teamID}" class="form-control" placeholder="team id" />
             <div style="clear: both; display: block; height: 10px;"></div>
             <label >Name:</label>
-            <input  type="text" th:field="*{name}"   />
+            <input    type="text" th:field="*{name}"   />
             <div style="clear: both; display: block; height: 10px;"></div>
             <div>
               <label >Hackathon:</label>
               <select name="hackathon" th:field="*{hackathon}">
                 <option th:each="hackathon : ${hackathons}"
-                        th:value="${hackathon.hackathonid}" th:text="${hackathon.name}">hackathon</option>
+                        th:value="${hackathon.hackathonid}" th:text="${hackathon.name}"
+                        th:selected="${hackathon}">hackathon</option>
 
               </select>
             </div>
@@ -110,7 +111,8 @@
               <label >Mentor:</label>
               <select name="mentor" th:field="*{mentor}">
                 <option th:each="mentor : ${mentors}"
-                        th:value="${mentor.mentorID}" th:text="${mentor.name}" th:name="mentor">mentor</option>
+                        th:value="${mentor.mentorID}" th:text="${mentor.name}" th:name="mentor"
+                        th:selected="${mentor}">mentor</option>
 
               </select>
             </div>
@@ -134,7 +136,7 @@
             <table border="1" >
               <thead>
               <tr >
-                <th  >Member ID </th>
+                <th >Member ID </th>
                 <th >Name </th>
                 <th >Last name</th>
                 <th >Mail</th>
@@ -145,12 +147,13 @@
               <tr th:each="member, rowStat : *{members}">
 
                 <td><input readonly type="text"  th:field="*{members[__${rowStat.index}__].id.memberID}"  /></td>
-                <td><input type="text"  th:field="*{members[__${rowStat.index}__].name}" />
-                <td><input type="text"  th:field="*{members[__${rowStat.index}__].lastName}" />
-                <td><input type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
-                <td><input type="text"  th:field="*{members[__${rowStat.index}__].role}" />
-                  <span >
-                                        <button  th:value="*{members[__${rowStat.index}__].id.memberID}" name="removeMember">
+                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].name}" />
+                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].lastName}" />
+                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
+                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].role}" />
+                  <span>
+                                        <button onclick="document.getElementById('id01').style.display='block'"
+                                                th:value="*{members[__${rowStat.index}__].id.memberID}" name="removeMember">
                                             <i >Delete</i>
                                         </button>
                                 </span>
@@ -168,11 +171,16 @@
       </div>
     </div>
     <!-- end of detail  -->
+    <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+      <p>Please correct your input</p>
+    </div>
   </form>
 
 </div>
 
 </div>
+
+
 
 
 

@@ -52,5 +52,15 @@ public class MarkServiceImpl implements MarkService {
         repository.deleteByJudge_Judgeid(id);
     }
 
+    @Override
+    public List<Mark> findAllByTeam_TeamID(Long teamid) {
+        return repository.findAllByTeam_TeamID(teamid);
+    }
+
+    @Override
+    public List<Mark> findAllByJudge_Judgeid(Long judgeid) {
+        return repository.findAllByJudge_Judgeid(judgeid);
+    }
+
 
 }

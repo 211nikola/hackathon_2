@@ -8,15 +8,20 @@ import com.hackathon.web.services.HackathonService;
 import com.hackathon.web.services.JudgeService;
 import com.hackathon.web.services.JudgehackathonService;
 import com.hackathon.web.services.MarkService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class JudgeController {
     private final JudgeService judgeService;
@@ -50,9 +55,7 @@ public class JudgeController {
 
        List<Judgehackathon> judgehackathons = judgehackathonService.findAll();
        List<Mark> marks = markService.findAll();
-       
-       //mora @Query za deletes
-       
+
        if(!judgehackathons.isEmpty()){
            for (Judgehackathon jh: judgehackathons
                 ) {
@@ -74,7 +77,7 @@ public class JudgeController {
         return "judgeOverview";
     }
 
-    @GetMapping("/administrator/addJudge")
+    @GetMapping("/administrator/create/judge")
     public String addJudge(Model model){
         model.addAttribute("judge",new Judge());
         return "judgeOverview";
@@ -82,23 +85,31 @@ public class JudgeController {
 
     @PostMapping("/administrator/addJudge")
     public String saveJudge(Model model,
+                            @Valid
                             @ModelAttribute Judge judge,
                             BindingResult bindingResult){
 
+        if (bindingResult.hasErrors()) {
+            log.warn("CANNOT SAVE:");
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.warn(objectError.toString());
+            });
+            return "judgeOverview";
+        }
         Judge savedJudge = judgeService.save(judge);
         model.addAttribute("judge",savedJudge);
-
+        model.addAttribute("message","Judge created successfully.");
         return "judgeOverview";
     }
 
 
-    @GetMapping("/administrator/searchJudges")
+    @GetMapping("/administrator/search/judges")
     public String getSearchJudges(Model model){
-        model.addAttribute("judge",new Judge());
+        model.addAttribute("judges",judgeService.findAllByNameContains(""));
         return "searchJudges";
     }
 
-    @PostMapping("/administrator/searchJudges")
+    @PostMapping("/administrator/search/judges")
     public String searchJudges(Model model,@RequestParam String search){
         model.addAttribute("judges",judgeService.findAllByNameContains(search));
         return "searchJudges";
@@ -108,7 +119,6 @@ public class JudgeController {
     public String getUpdateJudge(Model model,
                               @PathVariable String id,
                               @ModelAttribute Judge judgeForUpdate){
-
         Judge judge = judgeService.findByJudgeid(Long.valueOf(id));
         model.addAttribute("judge",judge);
         judgeForUpdate.setJudgeid(judge.getJudgeid());
@@ -121,6 +131,13 @@ public class JudgeController {
                               @PathVariable String id,
                               @ModelAttribute Judge judgeForUpdate,
                               BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            log.warn("CANNOT UPDATE:");
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.warn(objectError.toString());
+            });
+            return "judgeOverview";
+        }
         Judge judge = judgeService.findByJudgeid(Long.valueOf(id));
         judgeForUpdate.setJudgeid(judge.getJudgeid());
 
@@ -147,20 +164,53 @@ public class JudgeController {
         return "judgeOverview";
     }
 
-    // za delete mora ona fora sa message!
-    // uraditi   i update
-
     @GetMapping("/judgeLogin")
     public String redirectToJudgeLogin(){
         return "judgeLogin";
     }
 
+    @GetMapping("/judge/marks")
+    public String getMarks(Model model,HttpServletRequest request){
+
+        Judge judge = (Judge) request.getSession().getAttribute("user");
+        List<Mark> marks = markService.findAllByJudge_Judgeid(judge.getJudgeid());
+        model.addAttribute("marks",marks);
+
+        return "marks";
+    }
+
+    @GetMapping("/judge")
+    public String judge(Model model, HttpServletRequest request){
+
+        Judge judge = (Judge) request.getSession().getAttribute("user");
+        if(judge != null){
+
+            List<Judgehackathon> judgehackathonList = judgehackathonService.
+                    findAllByJudge_Judgeid(judge.getJudgeid());
+            List<Hackathon> hackathonList = new ArrayList<>();
+
+            for (Judgehackathon judgehackathon :
+                    judgehackathonList) {
+                hackathonList.add(
+                        hackathonService.findByHackathonid(
+                                judgehackathon.getHackathon().getHackathonid()));
+            }
+
+            model.addAttribute("hackathons",hackathonList);
+            model.addAttribute("judge",judge);
+            return "judge" ;
+        }
+
+        return "judge";
+    }
+
     @PostMapping("/judge")
     public String getJudge(
-                            @RequestParam String username
-                            ,@RequestParam String password,
-                            HttpSession session,
-                            Model model){
+            @RequestParam String username
+                            , @RequestParam String password,
+            HttpSession session,
+            Model model,
+            RedirectAttributes redirectAttributes){
 
         Judge judge = judgeService.findByUsernameAndPassword(username, password);
 
@@ -177,13 +227,13 @@ public class JudgeController {
                                 judgehackathon.getHackathon().getHackathonid()));
             }
 
-
             model.addAttribute("hackathons",hackathonList);
             model.addAttribute("judge",judge);
             session.setAttribute("user",judge);
             return "judge" ;
         }
 
+        redirectAttributes.addFlashAttribute("message_error","ERROR");
 
         return "redirect:/judgeLogin";
     }

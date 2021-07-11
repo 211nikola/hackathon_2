@@ -74,6 +74,9 @@
 
 
         </form>
+        <div class="alert alert-info" th:if="${message}">
+            <h3 th:text="${message}"></h3>
+        </div>
     </div>
 
     <div th:unless="${judge.judgeid != null}">

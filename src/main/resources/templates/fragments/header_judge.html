@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymleaf.org">
+<head>
+
+  <meta charset="UTF-8">
+  <title>Judge</title>
+
+  <link rel="stylesheet" th:href="@{../style/header.css}">
+
+</head>
+<body>
+<div th:fragment="header">
+
+  <div class="navbar" >
+
+    <div class="logout">
+      <a th:href="@{/logout}">Logout</a>
+    </div>
+
+    <div class="dropdown">
+      <a th:href="@{/judge}">Hackathons</a>
+    </div>
+
+    <div class="dropdown">
+      <a th:href="@{/judge/teams}">Teams</a>
+    </div>
+
+    <div class="dropdown">
+      <a th:href="@{/judge/marks}">Marks</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -50,6 +50,10 @@
 
       <button type="submit" >Update</button>
 
+      <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+        <p>Please correct your input</p>
+      </div>
+
     </form>
   </div>
 

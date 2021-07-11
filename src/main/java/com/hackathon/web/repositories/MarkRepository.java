@@ -14,6 +14,8 @@ public interface MarkRepository extends CrudRepository<Mark,Long> {
 
     Mark findByJudge_JudgeidAndTeamTeamID(Long judgeid,Long teamiD);
     List<Mark> findAll();
+    List<Mark> findAllByTeam_TeamID(Long teamid);
+    List<Mark> findAllByJudge_Judgeid(Long judgeid);
 
     @Transactional
     @Modifying

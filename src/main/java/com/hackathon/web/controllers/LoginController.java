@@ -38,7 +38,6 @@ public class LoginController {
 
 
     @PostMapping("/post_login")
-    // @RequestMapping(method = RequestMethod.POST)
     public String getUser(@RequestParam String username
             ,@RequestParam String password,
                                    Model model) {
@@ -59,7 +58,6 @@ public class LoginController {
                 List<Team> list = teamService.findAll();
                 model.addAttribute("teams",list);
 
-
                 List<Judgehackathon> judgehackathonList = judgehackathonService.
                         findAllByJudge_Judgeid(judge.getJudgeid());
                 List<Hackathon> hackathonList = new ArrayList<>();
@@ -72,14 +70,8 @@ public class LoginController {
                 }
 
 
-
-
-
                 //List<Hackathon> hackathonList = hackathonService.findAll();
                 model.addAttribute("hackathons",hackathonList);
-
-
-
 
                 return "/judge";
             }

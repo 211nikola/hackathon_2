@@ -3,18 +3,19 @@ package com.hackathon.web.controllers;
 import com.hackathon.web.domain.*;
 import com.hackathon.web.domainDTO.MarkDTO;
 import com.hackathon.web.services.*;
+import com.hackathon.web.utils.RandomIdGenerator;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.type.LongType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -41,34 +42,7 @@ public class TeamController {
                            @PathVariable("id") String id,
                            HttpServletRequest request,
                            Model model, BindingResult bindingResult) {
-        /*
-        if (bindingResult.hasErrors()) {
-            log.warn("CANNOT SAVE:");
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.warn(objectError.toString());
-            });
-            return "/teamMark";
-        }
-        mark = markService.save(mark);
-        return "redirect:/teamMark/" + mark.getTeam().getName();
 
-
-
-        Long judgeid = judgeService.findByJudgeid(Long.valueOf(2)).getJudgeid();
-        Judge judge = judgeService.findByJudgeid(Long.valueOf(2L));
-        Long teamid = Long.valueOf(id);
-        Team team = teamService.findByTeamID(teamid);
-
-        Mark m = new Mark(
-                new MarkId(2l,teamid),
-                mark.getDesign(),
-                mark.getEfficiency()
-                ,mark.getComment()
-                ,mark.getComplexity()
-                ,judge
-                ,team);
-
-         */
 
         MarkDTO mdto = markDTO;
 
@@ -91,6 +65,7 @@ public class TeamController {
         Mark savedMark = markService.save(m);
 
         model.addAttribute("mark", savedMark);
+        model.addAttribute("message","You successfully marked this team.");
 
         return "teamMark";
 
@@ -101,11 +76,6 @@ public class TeamController {
     public String showTeamMarks(@PathVariable String id,
                                 HttpServletRequest request,
                                 Model model) {
-
-        //String name = httpServletRequest.getUserPrincipal().getName();
-        //System.out.println(name);
-
-        //Long judgeid = judgeService.findByJudgeid(Long.valueOf(2)).getJudgeid();
 
         Judge loggedInJudge = (Judge) request.getSession().getAttribute("user");
         Long judgeid = loggedInJudge.getJudgeid();
@@ -119,51 +89,57 @@ public class TeamController {
 
         if (mark != null) {
             model.addAttribute("mark", mark);
+            model.addAttribute("message","You have already marked this team.");
         } else {
             model.addAttribute("markDTO", new MarkDTO());
             model.addAttribute("mark", new Mark());
             model.addAttribute("team", team);
         }
 
+     return "teamMark";
 
-        return "teamMark";
     }
 
-    @GetMapping(value = "/judge")
-    public String findTeamsForHackathon(@RequestParam String hackathon, Model model) {
+    @PostMapping (value = "/judge/teams")
+    public String findTeamsForHackathon(@RequestParam String hackathon, Model model, HttpSession session) {
 
-        //Hackathon h = hackathonService.findByHackathonid(Long.valueOf(hackathon));
         List<Team> teams = teamService.findAllByHackathon_Hackathonid(Long.valueOf(hackathon));
+        Hackathon h = hackathonService.findByHackathonid(Long.valueOf(hackathon));
+
         model.addAttribute("teams", teams);
+        session.setAttribute("hackathon",h);
 
         return "teamsInHackathon";
 
     }
 
-    @GetMapping("/administrator/searchTeams")
+    @GetMapping("/judge/teams")
+    public String judge_teams(Model model,HttpServletRequest request){
+
+        List<Team> teams = new ArrayList<>();
+        if((Hackathon) request.getSession().getAttribute("hackathon") != null){
+            Hackathon hackathon = (Hackathon) request.getSession().getAttribute("hackathon");
+            teams = teamService.findAllByHackathon_Hackathonid(hackathon.getHackathonid());
+        }
+
+        model.addAttribute("teams",teams);
+
+        return "teamsInHackathon";
+    }
+
+    @GetMapping("/administrator/search/teams")
     public String searchTeams() {
 
         return "searchTeams";
     }
 
-    @PostMapping("/administrator/searchTeams")
+    @PostMapping("/administrator/search/teams")
     public String searchTeams(Model model, @RequestParam String search) {
         model.addAttribute("teams", teamService.findAllByNameContains(search));
         return "searchTeams";
     }
 
 
-
-/*
-    add team memebers view
-    remove team member
-    Get and Post clean up for Controllers (URL names, models etc.)
-    Marko Ivanovic13:03
-    add team member controller method
-    input validation
-    BindingResults
-
- */
 
     @GetMapping("/administrator/searchTeams/team/{id}")
     public String getTeam(Model model,
@@ -186,6 +162,7 @@ public class TeamController {
         Team team = teamService.findByTeamID(Long.valueOf(id));
 
         List<Member> members = memberService.findAllByTeam_TeamID(team.getTeamID());
+        List<Mark> marks = markService.findAllByTeam_TeamID(team.getTeamID());
 
         if(!members.isEmpty()){
             for (Member member:
@@ -194,11 +171,17 @@ public class TeamController {
             }
         }
 
+        if(!marks.isEmpty()){
+            for (Mark mark :
+                    marks) {
+                markService.deleteMarkByIdIs(mark.getId().getMarkid());
+            }
+        }
+
         teamService.deleteById(team.getTeamID());
 
         return "searchTeams";
     }
-
 
     @RequestMapping(value="/administrator/addTeam", params = {"removeMember"})
     public String removeMember(@Valid @ModelAttribute Team team, BindingResult result,
@@ -240,36 +223,27 @@ public class TeamController {
         member.setId(new MemberId());
         member.setTeam(team);
 
-        member.getId().setMemberID(randomNegativeId());
+        member.getId().setMemberID(RandomIdGenerator.randomNegativeId());
         team.getMembers().add(member);
-
-
 
         model.addAttribute("hackathons",hackathonService.findAll());
         model.addAttribute("mentors",mentorService.findAll());
 
-
-
-
         return "team";
     }
 
-    @GetMapping("/administrator/addTeam")
+    @GetMapping("/administrator/create/team")
     public String addTeam(Model model){
 
         Team team = new Team();
 
         team.setTeamID(-1L);
-
-
-
         model.addAttribute("team",team);
         model.addAttribute("hackathons",hackathonService.findAll());
         model.addAttribute("mentors",mentorService.findAll());
 
         return "team";
     }
-
 
     @PostMapping("/administrator/updateTeam")
     public String addMember(Model model,@Valid @RequestParam(required = false) Team team,
@@ -286,7 +260,6 @@ public class TeamController {
         List<Member> members = new ArrayList<>();
         teamToUpdate.getMembers().iterator().forEachRemaining(members::add);
 
-
         model.addAttribute("team",teamToUpdate);
         model.addAttribute("members",teamToUpdate.getMembers());
         model.addAttribute("hackathons",hackathonService.findAll());
@@ -296,40 +269,46 @@ public class TeamController {
         return "team";
     }
 
-
-
-
     @PostMapping("/administrator/addTeam")
     public String saveTeam(Model model,
                           @NotNull @Valid
                            @ModelAttribute Team team,
-                           RedirectAttributes atts,
                            BindingResult bindingResult,
                            HttpServletRequest request){
+
+        if (bindingResult.hasErrors()) {
+            log.warn("CANNOT SAVE:");
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.warn(objectError.toString());
+            });
+            Team t = new Team();
+
+            team.setTeamID(-1L);
+            model.addAttribute("team",t);
+            model.addAttribute("hackathons",hackathonService.findAll());
+            model.addAttribute("mentors",mentorService.findAll());
+            return "team";
+        }
 
         if(team.getAdministrator() == null){
             Administrator administrator = (Administrator) request.getSession().getAttribute("user");
             team.setAdministrator(administrator);
         }
 
-
         Team teamForSave = new Team(0L,team.getName(),new ArrayList<>(),new HashSet<>(), team.getMentor(), team.getAdministrator(), team.getHackathon());
-
-
-
         Team savedTeam = teamService.save(teamForSave);
         savedTeam.setMembers(team.getMembers());
-
 
         if(team.getMembers() != null ) {
             for (Member m :
                     team.getMembers()) {
 
                 m.setTeam(savedTeam);
-                m.setId(new MemberId(Long.valueOf(randomMemberId()),savedTeam.getTeamID()));
+                m.setId(new MemberId(RandomIdGenerator.randomMemberId(),savedTeam.getTeamID()));
 
             }
         }
+
         teamService.save(savedTeam);
 
         model.addAttribute("members",team.getMembers());
@@ -339,12 +318,5 @@ public class TeamController {
         return "team";
     }
 
-    public Long randomNegativeId() {
-        Random rand = new Random();
-        return -1 * ((long) rand.nextInt(1000));
-    }
-    public Long randomMemberId() {
-        Random rand = new Random();
-        return (long) (rand.nextInt(1000) + 1);
-    }
+
 }

@@ -5,16 +5,17 @@ import com.hackathon.web.services.HackathonService;
 import com.hackathon.web.services.JudgeService;
 import com.hackathon.web.services.JudgehackathonService;
 import com.hackathon.web.services.TeamService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @Controller
 public class HackathonController {
     private final HackathonService hackathonService;
@@ -33,7 +34,7 @@ public class HackathonController {
     @GetMapping("/administrator/saveHackathon/getAvailableJudges")
     public List<Judge> getAvailableJudges(Model model){
 
-        List<Judge> judges = new ArrayList<>();
+        List<Judge> judges;
         List<Long> ids = new ArrayList<>();
         List<Judgehackathon> judgehackathons = judgehackathonService.findAll();
 
@@ -49,7 +50,7 @@ public class HackathonController {
         return judges;
     }
 
-    @GetMapping("/administrator/addHackathon")
+    @GetMapping("/administrator/create/hackathon")
     public String addHackathon(Model model){
         model.addAttribute("hackathon",new Hackathon());
         List<Judge> judges = new ArrayList<>();
@@ -67,19 +68,29 @@ public class HackathonController {
         return "hackathon";
     }
 
-    @GetMapping("/administrator/searchHackathons")
+    @GetMapping("/administrator/search/hackathons")
     public String getSearchHackathons(Model model){
         model.addAttribute("hackathon",new Hackathon());
         return "searchHackathons";
     }
 
 
-    @PostMapping("/administrator/saveHackathon")
+    @PostMapping("/administrator/create/hackathon")
     public String saveHackathon(Model model,
+                                @Valid
                                 @ModelAttribute Hackathon hackathon,
+                                BindingResult bindingResult,
                                 @RequestParam(value="checkedIds",required = false) long[] ids,
-                                HttpServletRequest request,
-                                BindingResult bindingResult){
+                                HttpServletRequest request
+                                ){
+
+        if (bindingResult.hasErrors()) {
+            log.warn("CANNOT SAVE:");
+            bindingResult.getAllErrors().forEach(objectError -> {
+                log.warn(objectError.toString());
+            });
+            return "hackathon";
+        }
 
         Hackathon h = new Hackathon();
         h.setName(hackathon.getName());
@@ -93,15 +104,10 @@ public class HackathonController {
             for (int i = 0; i < ids.length; i++) {
                 Judge judge = judgeService.findByJudgeid(Long.valueOf(ids[i]));
                 judges.add(judge);
-                System.out.println(ids[i]);
+                log.warn(String.valueOf(ids[i]));
             }
 
         }
-
-
-
-
-
 
         Hackathon savedHackathon = hackathonService.save(h);
         if(!judges.isEmpty()){
@@ -118,6 +124,7 @@ public class HackathonController {
 
         model.addAttribute("judges",judges);
         model.addAttribute("hackathon",h);
+        model.addAttribute("message","Hackathon created successfully.");
 
 
         return "hackathon";
@@ -128,16 +135,17 @@ public class HackathonController {
                                @PathVariable String id){
 
         Hackathon hackathon = hackathonService.findByHackathonid(Long.valueOf(id));
+        log.warn(hackathon.getDate().toString());
         List<Team> teams = teamService.findAllByHackathon_Hackathonid(hackathon.getHackathonid());
         List<Judgehackathon> judgehackathonList = judgehackathonService.
                 findAllByHackathon_Hackathonid(hackathon.getHackathonid());
         List<Judge> judges = new ArrayList<>();
+
         for (Judgehackathon judgehackathon: judgehackathonList
              ) {
             Judge judge = judgeService.findByJudgeid(judgehackathon.getJudge().getJudgeid());
             judges.add(judge);
         }
-        //List<Judge> judges = judgeService.
 
         model.addAttribute("hackathon",hackathon);
         model.addAttribute("teams",teams);
@@ -146,7 +154,7 @@ public class HackathonController {
         return "hackathon";
     }
 
-    @PostMapping("/administrator/searchHackathons")
+    @PostMapping("/administrator/search/hackathons")
     public String searchHackathon(Model model,@RequestParam String search){
         model.addAttribute("hackathons",hackathonService.findAllByNameContains(search));
         return "searchHackathons";
