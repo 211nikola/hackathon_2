@@ -62,5 +62,10 @@ public class JudgeServiceImpl implements JudgeService {
         repository.deleteById(aLong);
     }
 
+    @Override
+    public List<Judge> findAll() {
+        return repository.findAll();
+    }
+
 
 }

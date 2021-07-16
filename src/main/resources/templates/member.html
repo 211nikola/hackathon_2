@@ -3,11 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <title>Member</title>
-  <link rel="stylesheet" th:href="@{/style/header.css}">
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </head>
-<body>
+<body class="background">
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/navbar_admin :: header"></div>
 
 <div class="container">
 
@@ -18,43 +21,32 @@
 
       <div class="form-group">
         <label >Name:</label>
-        <input readonly th:field="${member.name}" type="text" >
+        <input readonly th:field="${member.name}" class="form-control" type="text" >
       </div>
       <div class="form-group">
         <label >Last name:</label>
-        <input readonly th:field="${member.lastName}" type="text" >
+        <input readonly th:field="${member.lastName}" class="form-control" type="text" >
       </div>
 
 
       <div class="form-group">
         <label >Email address:</label>
-        <input readonly th:field="${member.mail}" type="email" >
+        <input readonly th:field="${member.mail}" class="form-control" type="email" >
       </div>
       <div class="form-group">
         <label >Role:</label>
-        <input readonly th:field="${member.role}" type="text" >
+        <input readonly th:field="${member.role}" class="form-control" type="text" >
       </div>
       <div class="form-group">
         <label >Team:</label>
-        <input readonly th:field="${member.team.name}" type="text" >
+        <input readonly th:field="${member.team.name}" class="form-control" type="text" >
       </div>
-
-
-
-
-
-
 
     </form>
 
   </div>
 
-
-
-
-
 </div>
-
 
 </body>
 </html>

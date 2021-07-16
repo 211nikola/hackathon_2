@@ -54,7 +54,7 @@ public class AdministratorController {
             return "administrator";
         }
 
-        atts.addFlashAttribute("message","Invalid username or password.");
+        atts.addFlashAttribute("message_error","Invalid username or password.");
         log.warn("invalid message pass");
 
         return "redirect:/administratorLogin";

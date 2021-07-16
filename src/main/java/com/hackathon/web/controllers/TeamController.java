@@ -128,8 +128,8 @@ public class TeamController {
     }
 
     @GetMapping("/administrator/search/teams")
-    public String searchTeams() {
-
+    public String searchTeams(Model model) {
+            model.addAttribute("teams",teamService.findAll());
         return "searchTeams";
     }
 
@@ -179,7 +179,7 @@ public class TeamController {
         }
 
         teamService.deleteById(team.getTeamID());
-
+        model.addAttribute("teams",teamService.findAll());
         return "searchTeams";
     }
 
@@ -295,7 +295,7 @@ public class TeamController {
             team.setAdministrator(administrator);
         }
 
-        Team teamForSave = new Team(0L,team.getName(),new ArrayList<>(),new HashSet<>(), team.getMentor(), team.getAdministrator(), team.getHackathon());
+        Team teamForSave = new Team(null,team.getName(),new ArrayList<>(),new HashSet<>(), team.getMentor(), team.getAdministrator(), team.getHackathon());
         Team savedTeam = teamService.save(teamForSave);
         savedTeam.setMembers(team.getMembers());
 

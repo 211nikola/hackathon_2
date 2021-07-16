@@ -3,18 +3,53 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <title>Login</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </head>
-<body>
-<h1>Login:</h1>
 
-<form th:action="@{'/administrator'}" method="post">
-    <div><label> User Name : <input  required type="text" name="username" value="test"/> </label></div>
-    <div><label> Password: <input  required type="password" name="password" value="test"/> </label></div>
-    <div><input type="submit" value="Login"/></div>
+<body class="background">
 
-</form>
-<div class="alert alert-info" th:if="${message}">
-    <h3 th:text="${message}"></h3>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-lg-center text-primary title modal-title" align="center">Login</h1>
+        </div>
+    </div>
+    <div >
+        <form   th:action="@{'/administrator/'}"  method="post">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group-sm">
+                        <label for="username">Username</label>
+                        <input required name="username" type="text" class="form-control" id="username">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group-sm">
+                        <label for="password">Password</label>
+                        <input required name="password" type="password" class="form-control" id="password" >
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p>   </p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" value="Login" class="btn btn-primary btn-lg btn-block">Submit</button>
+                </div>
+            </div>
+        </form>
+        <div  class="form-group-sm" th:if="${message_error}">
+            <label class="text-danger"> Invalid username and password.</label>
+        </div>
+    </div>
 </div>
+
+
 </body>
 </html>

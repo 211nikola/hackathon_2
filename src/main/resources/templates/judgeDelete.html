@@ -4,59 +4,63 @@
   <meta charset="UTF-8">
   <title>Judge</title>
 
-  <link rel="stylesheet" th:href="@{/style/header.css}">
-
-
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 
 </head>
-<body>
+<body class="backgorund">
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/navbar_admin :: header"></div>
 
 <div class="container">
 
-  <div >
+  <div>
     <form onsubmit="return confirm('Are you sure?');" th:action="@{'/administrator/delete/judge/' + ${judge.judgeid}}" th:object="${judge}" method="post">
-      <div><h1>Delete judge:</h1></div>
-
-      <div>
-        <label>Username :</label>
-        <input readonly th:field="${judge.username}" type="text">
-      </div>
-      <div>
-        <label>Password :</label>
-        <input readonly th:field="${judge.password}" type="text">
-      </div>
-      <div>
-        <label>Name:</label>
-        <input readonly th:field="${judge.name}" type="text">
-      </div>
-      <div>
-        <label>Last name:</label>
-        <input readonly th:field="${judge.lastName}" type="text">
-      </div>
-      <div>
-        <label>Mail :</label>
-        <input readonly th:field="${judge.mail}" type="text">
-      </div>
-      <div>
-        <label>Country :</label>
-        <input readonly th:field="${judge.country}" type="text">
-      </div>
-      <div>
-        <label>Profession :</label>
-        <input readonly th:field="${judge.profession}" type="text">
+      <div class="row">
+        <div class="col">
+          <div><h1>Delete judge:</h1></div>
+        </div>
       </div>
 
-      <button type="submit" >Delete</button>
-
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label>Username :</label>
+            <input readonly th:field="${judge.username}" class="form-control" type="text">
+          </div>
+          <div>
+            <label>Password :</label>
+            <input readonly th:field="${judge.password}" class="form-control" type="text">
+          </div>
+          <div>
+            <label>Name:</label>
+            <input readonly th:field="${judge.name}"  class="form-control" type="text">
+          </div>
+          <div>
+            <label>Last name:</label>
+            <input readonly th:field="${judge.lastName}" class="form-control" type="text">
+          </div>
+          <div>
+            <label>Mail :</label>
+            <input readonly th:field="${judge.mail}" class="form-control" type="text">
+          </div>
+          <div>
+            <label>Country :</label>
+            <input readonly th:field="${judge.country}" class="form-control" type="text">
+          </div>
+          <div>
+            <label>Profession :</label>
+            <input readonly th:field="${judge.profession}"  class="form-control" type="text">
+          </div>
+        </div>
+      </div>
+      <br>
+      <button class="btn btn-danger" type="submit" >Delete</button>
+      <br>
     </form>
   </div>
-
-
-
-
 </div>
-
 </body>
 </html>

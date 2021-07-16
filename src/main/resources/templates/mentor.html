@@ -3,101 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <title>Mentor</title>
-  <link rel="stylesheet" th:href="@{/style/header.css}">
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </head>
-<body>
+<body class="background">
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/navbar_admin :: header"></div>
 
 <div class="container">
 
   <div th:if="${mentor.mentorID == null}">
     <div><h1>Details for mentor:</h1></div>
-
     <form  th:action="@{'/administrator/addMentor'}" th:object="${mentor}" method="post" >
-
       <div class="form-group">
         <label >Name:</label>
-        <input  th:field="${mentor.name}" type="text" >
+        <input  th:field="${mentor.name}"  required class="form-control" type="text" >
       </div>
       <div class="form-group">
         <label >Last name:</label>
-        <input  th:field="${mentor.lastName}" type="text" >
+        <input  th:field="${mentor.lastName}"required  class="form-control" type="text" >
       </div>
-
-
       <div class="form-group">
         <label >Email address:</label>
-        <input  th:field="${mentor.mail}" type="email" >
+        <input  th:field="${mentor.mail}" required  class="form-control" type="email" >
       </div>
       <div class="form-group">
         <label >Profession:</label>
-        <input  th:field="${mentor.profession}" type="text" >
+        <input  th:field="${mentor.profession}" required class="form-control" type="text" >
       </div>
-
-      <button type="submit" class="btn btn-success" value="submit">Save mentor</button>
-
-      <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+      <button type="submit" class="btn btn-primary" value="submit">Save</button>
+      <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
         <p>Please correct your input</p>
       </div>
-
-
     </form>
-
   </div>
-
   <div th:unless="${mentor.mentorID == null}">
     <div><h1>Details for mentor:</h1></div>
-
     <form  th:object="${mentor}" >
-
       <div class="form-group">
         <label >Name:</label>
-        <input readonly th:field="${mentor.name}" type="text" >
+        <input readonly th:field="${mentor.name}" required class="form-control" type="text" >
       </div>
       <div class="form-group">
         <label >Last name:</label>
-        <input readonly th:field="${mentor.lastName}" type="text" >
+        <input readonly th:field="${mentor.lastName}" required class="form-control" type="text" >
       </div>
-
-
       <div class="form-group">
         <label >Email address:</label>
-        <input readonly th:field="${mentor.mail}" type="email" >
+        <input readonly th:field="${mentor.mail}" required class="form-control" type="email" >
       </div>
       <div class="form-group">
         <label >Profession:</label>
-        <input readonly th:field="${mentor.profession}" type="text" >
+        <input readonly th:field="${mentor.profession}" required class="form-control" type="text" >
       </div>
+      <div class="form-group" th:if="${ not#lists.isEmpty(teams)}">
+        <table  class="table table-condensed" border="1" >
 
-
-
-      <div th:if="${ not#lists.isEmpty(teams)}">
-        <table border="1" >
-          <tr>
-            <th>Team name </th>
-
-
-          </tr>
-          <tr th:each="team : ${teams}">
-            <td th:text="${team.name}"></td>
-          </tr>
+          <thead class="thead-dark">
+            <tr>
+              <th>Team name </th>
+            </tr>
+          </thead>
+          <tbody>
+              <tr th:each="team : ${teams}">
+                <td th:text="${team.name}"></td>
+              </tr>
+          </tbody>
         </table>
       </div>
-
-
-
     </form>
     <div class="alert alert-info" th:if="${message}">
       <h3 th:text="${message}"></h3>
     </div>
-
+    <div class="alert alert-danger" th:if="${message_error}">
+      <h3 th:text="${message_error}"></h3>
+    </div>
   </div>
-
-
-
 </div>
-
-
 </body>
 </html>

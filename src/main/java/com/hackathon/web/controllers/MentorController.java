@@ -97,6 +97,7 @@ public class MentorController {
 
         model.addAttribute("mentor",mentor);
         model.addAttribute("teams",teams);
+        model.addAttribute("message_error","Mentor deleted successfully.");
 
         return "mentor";
     }
@@ -117,7 +118,7 @@ public class MentorController {
 
     @GetMapping("administrator/search/mentors")
     public String searchMentors(Model model){
-        model.addAttribute("mentor",new Mentor());
+        model.addAttribute("mentors",mentorService.findAll());
         return "searchMentors";
     }
 

@@ -3,57 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <title>Search hackathons</title>
-  <link rel="stylesheet" th:href="@{/style/header.css}">
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/tableSearch.js}"></script>
 
 </head>
-<body>
-<div th:replace="fragments/header" :: header ></div>
-<div>
-  <label >Search for the mentor: </label>
-  <form th:action="@{'/administrator/search/mentors'}" method="post">
-    <div>
-
-      <input type="text" name="search" />
-      <input type="submit" value="Search"/>
-    </div>
-  </form>
-  <div th:if="${ not#lists.isEmpty(mentors)}"> Result:
-    <table border="1">
-      <tr>
-        <th>Name</th>
-        <th>Last name</th>
-        <th>Mail</th>
-        <th>Profession</th>
-        <th>Details</th>
-        <th>Delete</th>
-      </tr>
-      <tr th:each="mentor : ${mentors}">
-        <td><span th:text="${mentor.name}" ></span></td>
-        <td><span th:text="${mentor.lastName}" ></span></td>
-        <td><span th:text="${mentor.mail}" ></span></td>
-        <td><span th:text="${mentor.profession}" ></span></td>
-        <td>
-          <form  th:action="@{/administrator/searchMentors/mentor/} + ${{mentor.mentorID}}"  method="get">
-            <button  type="submit">
-              <i>Detalis</i>
-            </button>
-          </form>
-        </td>
-        <td>
-          <form  th:action="@{/administrator/delete/mentor/} + ${{mentor.mentorID}}"  method="post">
-            <button  type="submit">
-              <i>Delete</i>
-            </button>
-          </form>
-        </td>
-
-      </tr>
-
-    </table>
+<body class="background">
+  <div th:replace="fragments/navbar_admin :: header "></div>
+  <div class="container">
+    <p></p>
+    <input class="form-control mb-4" id="tableSearch" type="text"
+           placeholder="Search">
+      <div th:if="${ not#lists.isEmpty(mentors)}">
+        <table class="table table-condensed" border="1">
+          <thead class="thead-dark">
+            <tr>
+              <th>Name</th>
+              <th>Last name</th>
+              <th>Mail</th>
+              <th>Profession</th>
+              <th class="bg-secondary">Details</th>
+              <th class="bg-secondary">Delete</th>
+            </tr>
+          </thead>
+          <tbody id="myTable">
+            <tr th:each="mentor : ${mentors}">
+              <td><span th:text="${mentor.name}" ></span></td>
+              <td><span th:text="${mentor.lastName}" ></span></td>
+              <td><span th:text="${mentor.mail}" ></span></td>
+              <td><span th:text="${mentor.profession}" ></span></td>
+              <td>
+                <form  th:action="@{/administrator/searchMentors/mentor/} + ${{mentor.mentorID}}"  method="get">
+                  <button class="btn btn-info btn-block " type="submit">
+                    <i>Detalis</i>
+                  </button>
+                </form>
+              </td>
+              <td>
+                <form  th:action="@{/administrator/delete/mentor/} + ${{mentor.mentorID}}"  method="post">
+                  <button class="btn btn-danger btn-block" type="submit">
+                    <i>Delete</i>
+                  </button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
   </div>
-
 </div>
-
-
 </body>
 </html>

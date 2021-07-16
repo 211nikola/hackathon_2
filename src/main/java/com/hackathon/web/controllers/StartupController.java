@@ -22,6 +22,7 @@ public class StartupController {
         return "startup";
     }
 
+
     @GetMapping({"/logout"})
     public String logout(RedirectAttributes redirectAttributes,
                          HttpServletRequest request,

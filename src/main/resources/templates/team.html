@@ -3,127 +3,94 @@
 <head>
   <meta charset="UTF-8">
   <title>Team</title>
-  <link rel="stylesheet" th:href="@{/style/header.css}">
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </head>
-<body>
+<body class="background">
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/navbar_admin :: header"></div>
 
-<div class="">
-
+<div class="container">
   <div th:if="${team.teamID > 0 }">
     <div><h1>Details for team:</h1></div>
-
     <form  th:object="${team}" >
-
       <div class="form-group">
         <label hidden >ID:</label>
-        <input hidden readonly th:field="${team.teamID}" type="text" >
+        <input hidden readonly th:field="${team.teamID}" class="form-control" type="text" >
       </div>
       <div class="form-group">
         <label >Name:</label>
-        <input readonly th:field="${team.name}" type="text" >
+        <input readonly th:field="${team.name}" class="form-control" type="text" >
       </div>
       <div class="form-group">
         <label >Administrator:</label>
-        <input readonly th:field="${team.administrator.name}" type="text" >
+        <input readonly th:field="${team.administrator.name}" class="form-control" type="text" >
       </div>
-
-
       <div class="form-group">
         <label >Hackathon:</label>
-        <input readonly th:field="${team.hackathon.name}" type="email" >
+        <input readonly th:field="${team.hackathon.name}" class="form-control" type="email" >
       </div>
       <div class="form-group">
         <label >Mentor:</label>
-        <input readonly th:field="${team.mentor.name}" type="text" >
+        <input readonly th:field="${team.mentor.name}" class="form-control" type="text" >
       </div>
-
-
-
       <div th:if="${ not#lists.isEmpty(members)}"> Members:
-        <table border="1">
+        <table  class="table-striped table table-responsive-xl align-content-lg-center" border="1">
           <tr>
             <th>Name</th>
             <th>Last name</th>
             <th>Mail</th>
             <th>Role</th>
-
-
           </tr>
           <tr th:each="member : ${members}">
             <td><span th:text="${member.name}" ></span></td>
             <td><span th:text="${member.lastName}" ></span></td>
             <td><span th:text="${member.mail}" ></span></td>
             <td><span th:text="${member.role}" ></span></td>
-
-
-
           </tr>
-
         </table>
       </div>
-
-
     </form>
     <div class="alert alert-info" th:if="${message}">
       <h3 th:text="${message}"></h3>
     </div>
-
   </div>
-
-
 <div th:unless="${team.teamID >  0}">
-  <div><h1>Enter details for team:</h1></div>
-
+  <div><h1 class="text-info">Enter details for team:</h1></div>
   <form th:object="${team}" th:action="@{/administrator/addTeam}" action="#" method="post">
-
     <div>
       <div>
         <div>
-          <div>
-            <h3>Add New Team</h3>
-          </div>
-          <div>
-            <label >Team id:</label>
-            <input readonly type="text" th:field="*{teamID}" class="form-control" placeholder="team id" />
-            <div style="clear: both; display: block; height: 10px;"></div>
+          <div class="form-group">
             <label >Name:</label>
-            <input    type="text" th:field="*{name}"   />
-            <div style="clear: both; display: block; height: 10px;"></div>
+            <input    type="text" th:field="*{name}"  required class="form-control"/>
             <div>
               <label >Hackathon:</label>
-              <select name="hackathon" th:field="*{hackathon}">
+              <select class="form-control custom-select" name="hackathon" th:field="*{hackathon}">
                 <option th:each="hackathon : ${hackathons}"
                         th:value="${hackathon.hackathonid}" th:text="${hackathon.name}"
                         th:selected="${hackathon}">hackathon</option>
-
               </select>
             </div>
-            <div style="clear: both; display: block; height: 10px;"></div>
-
-
           </div>
-
           <div class="form-group">
-
             <div>
               <label >Mentor:</label>
-              <select name="mentor" th:field="*{mentor}">
+              <select class="form-control custom-select" name="mentor" th:field="*{mentor}">
                 <option th:each="mentor : ${mentors}"
                         th:value="${mentor.mentorID}" th:text="${mentor.name}" th:name="mentor"
                         th:selected="${mentor}">mentor</option>
-
               </select>
             </div>
-            <div style="clear: both; display: block; height: 10px;"></div>
-
-            <input type="submit"
-                   value="Save">
+            <p></p>
+            <input class="btn btn-primary" type="submit"
+                   value="Save team">
+            <p>  </p>
           </div>
         </div>
       </div>
-
     </div>
     <!-- start of detail section -->
     <div >
@@ -133,41 +100,41 @@
             <h3 >Team members</h3>
           </div>
           <div >
-            <table border="1" >
-              <thead>
+            <table class="table table-condensed" border="1" >
+              <thead class="thead-dark">
               <tr >
-                <th >Member ID </th>
+                <th hidden>MemberID</th>
                 <th >Name </th>
                 <th >Last name</th>
                 <th >Mail</th>
                 <th >Role</th>
+                <th ></th>
               </tr>
               </thead>
               <tbody>
-              <tr th:each="member, rowStat : *{members}">
-
-                <td><input readonly type="text"  th:field="*{members[__${rowStat.index}__].id.memberID}"  /></td>
-                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].name}" />
-                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].lastName}" />
-                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
-                <td><input required type="text"  th:field="*{members[__${rowStat.index}__].role}" />
-                  <span>
-                                        <button onclick="document.getElementById('id01').style.display='block'"
-                                                th:value="*{members[__${rowStat.index}__].id.memberID}" name="removeMember">
-                                            <i >Delete</i>
+              <tr class="form-group" th:each="member, rowStat : *{members}">
+                <td hidden><input class="form-control"  readonly type="text"  th:field="*{members[__${rowStat.index}__].id.memberID}"  /></td>
+                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].name}" />
+                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].lastName}" />
+                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
+                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].role}" />
+                <td>
+                <span>
+                    <button  class="btn btn-danger btn-block" onclick="document.getElementById('id01').style.display='block'"
+                             th:value="*{members[__${rowStat.index}__].id.memberID}" name="removeMember">
+                              <i >Delete</i>
                                         </button>
                                 </span>
+                 </td>
 
               </tr>
               </tbody>
             </table>
-            <button  type="submit" name="addMember">
-              <i></i> <b> Add</b>
+            <button class="btn btn-primary bg-success" type="submit" name="addMember">
+              <i></i> <b> +Add member</b>
             </button>
           </div>
-
         </div>
-
       </div>
     </div>
     <!-- end of detail  -->
@@ -175,16 +142,7 @@
       <p>Please correct your input</p>
     </div>
   </form>
-
 </div>
-
 </div>
-
-
-
-
-
-
-
 </body>
 </html>

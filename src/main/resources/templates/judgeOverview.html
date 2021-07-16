@@ -4,120 +4,125 @@
     <meta charset="UTF-8">
     <title>Judge</title>
 
-    <link rel="stylesheet" th:href="@{/style/header.css}">
-
-
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 
 </head>
 <body>
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/navbar_admin :: header"></div>
 
 <div class="container">
 
     <div th:if="${judge.judgeid != null}">
         <form th:object="${judge}">
+
             <div><h1>Details for judge:</h1></div>
-            <div>
+            <div class="form-group">
                 <label>Judge ID :</label>
-                <input readonly th:field="${judge.judgeid}" type="text">
+                <input readonly th:field="${judge.judgeid}" class="form-control" type="text">
             </div>
-            <div>
+            <div class="form-group">
                 <label>Name:</label>
-                <input readonly th:field="${judge.name}" type="text">
+                <input readonly th:field="${judge.name}" class="form-control" type="text">
             </div>
-            <div>
+            <div class="form-group">
                 <label>Last name:</label>
-                <input readonly th:field="${judge.lastName}" type="text">
+                <input readonly th:field="${judge.lastName}" class="form-control" type="text">
             </div>
-            <div>
+            <div class="form-group">
                 <label>Mail :</label>
-                <input readonly th:field="${judge.mail}" type="text">
+                <input readonly th:field="${judge.mail}" class="form-control" type="text">
             </div>
-            <div>
+            <div class="form-group">
                 <label>Country :</label>
-                <input readonly th:field="${judge.country}" type="text">
+                <input readonly th:field="${judge.country}" class="form-control" type="text">
             </div>
-            <div>
+            <div class="form-group">
                 <label>Profession :</label>
-                <input readonly th:field="${judge.profession}" type="text">
+                <input readonly th:field="${judge.profession}" class="form-control" type="text">
             </div>
-            <div>
+            <div class="form-group">
                 <label>Username :</label>
-                <input readonly th:field="${judge.username}" type="text">
+                <input readonly th:field="${judge.username}" class="form-control" type="text">
             </div>
-            <div>
+            <div class="form-group">
                 <label>Password :</label>
-                <input readonly th:field="${judge.password}" type="text">
+                <input readonly th:field="${judge.password}" class="form-control" type="text">
             </div>
-
-
-
 
             <div th:if="${not#lists.isEmpty(hackathons)}"> Hackathons:
-                <table border="1">
-                    <tr>
-                        <th>Name</th>
-                        <th>Date</th>
-
-                    </tr>
-                    <tr th:each="hackathon : ${hackathons}">
-                        <td><span th:text="${hackathon.name}" ></span></td>
-                        <td><span th:text="${hackathon.date}" ></span></td>
-
-
-                    </tr>
-
+                <table  class="table table-condensed" border="1">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="hackathon : ${hackathons}">
+                            <td><span th:text="${hackathon.name}" ></span></td>
+                            <td><span th:text="${hackathon.date}" ></span></td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
-
-
-
         </form>
         <div class="alert alert-info" th:if="${message}">
             <h3 th:text="${message}"></h3>
+        </div>
+        <div class="alert alert-danger" th:if="${message_error}">
+            <h3 th:text="${message_error}"></h3>
         </div>
     </div>
 
     <div th:unless="${judge.judgeid != null}">
         <form th:action="@{'/administrator/addJudge'}" th:object="${judge}" method="post">
-            <div><h1>Details for judge:</h1></div>
-
-            <div>
-                <label>Username :</label>
-                <input  th:field="${judge.username}" type="text">
-            </div>
-            <div>
-                <label>Password :</label>
-                <input  th:field="${judge.password}" type="text">
-            </div>
-            <div>
-                <label>Name:</label>
-                <input  th:field="${judge.name}" type="text">
-            </div>
-            <div>
-                <label>Last name:</label>
-                <input  th:field="${judge.lastName}" type="text">
-            </div>
-            <div>
-                <label>Mail :</label>
-                <input  th:field="${judge.mail}" type="text">
-            </div>
-            <div>
-                <label>Country :</label>
-                <input  th:field="${judge.country}" type="text">
-            </div>
-            <div>
-                <label>Profession :</label>
-                <input  th:field="${judge.profession}" type="text">
+            <div class="row">
+                <div class="col">
+                     <div><h1>Details for judge:</h1></div>
+                </div>
             </div>
 
-            <button type="submit" >Save</button>
-
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>Username :</label>
+                        <input  th:field="${judge.username}" required class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Password :</label>
+                        <input  th:field="${judge.password}" required class="form-control" type="password">
+                    </div>
+                    <div class="form-group">
+                        <label>Name:</label>
+                        <input  th:field="${judge.name}" required class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Last name:</label>
+                        <input  th:field="${judge.lastName}"  required class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Mail :</label>
+                        <input  th:field="${judge.mail}" required class="form-control" type="email">
+                    </div>
+                    <div class="form-group">
+                        <label>Country :</label>
+                        <input  th:field="${judge.country}" required class="form-control" type="text">
+                    </div>
+                    <div class="form-group">
+                        <label>Profession :</label>
+                        <input  th:field="${judge.profession}" required class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <p></p>
+            <button class="btn btn-primary btn-lg" type="submit" >Save</button>
+            <p></p>
         </form>
     </div>
-
-
 
 
 </div>

@@ -3,69 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <title>Search judges</title>
-  <link rel="stylesheet" th:href="@{/style/header.css}">
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
+  <script type="text/javascript" th:src="@{/js/tableSearch.js}"></script>
 
 </head>
-<body>
-<div th:replace="fragments/header" :: header ></div>
-<div>
-  <label >Search for the judges: </label>
-  <form th:action="@{'/administrator/search/judges'}" method="post">
-    <div>
-
-      <input type="text" name="search" />
-      <input type="submit" value="Search"/>
-    </div>
-  </form>
-  <div th:if="${ not#lists.isEmpty(judges)}"> Result:
-    <table border="1">
-      <tr>
-        <th>Name</th>
-        <th>Name</th>
-        <th>Mail</th>
-        <th>Country</th>
-        <th>Details</th>
-        <th>Update</th>
-        <th>Delete</th>
-      </tr>
-      <tr th:each="judge : ${judges}">
-
-        <td><span th:text="${judge.name}" ></span></td>
-        <td><span th:text="${judge.lastName}" ></span></td>
-        <td><span th:text="${judge.mail}" ></span></td>
-        <td><span th:text="${judge.country}" ></span></td>
-
-        <td>
-          <form  th:action="@{/administrator/searchJudges/judge/} + ${{judge.judgeid}}"  method="get">
-            <button  type="submit">
-              <i>Detalis</i>
-            </button>
-          </form>
-        </td>
-
-        <td>
-          <form  th:action="@{/administrator/update/judge/} + ${{judge.judgeid}}"  method="get">
-            <button  type="submit">
-              <i>Update</i>
-            </button>
-          </form>
-        </td>
-
-        <td>
-          <form  th:action="@{/administrator/delete/judge/} + ${{judge.judgeid}}"  method="get">
-            <button  type="submit">
-              <i>Delete</i>
-            </button>
-          </form>
-        </td>
-
-      </tr>
-
+<body class="background">
+<div th:replace="fragments/navbar_admin :: header "></div>
+<div class="container">
+  <p></p>
+  <input class="form-control mb-4" id="tableSearch" type="text"
+         placeholder="Search">
+  <div th:if="${ not#lists.isEmpty(judges)}">
+    <table class="table table-condensed" border="1">
+      <thead class="thead-dark">
+        <tr>
+          <th>Name</th>
+          <th>Name</th>
+          <th>Mail</th>
+          <th>Country</th>
+          <th class="bg-secondary">Details</th>
+          <th class="bg-secondary">Update</th>
+          <th class="bg-secondary">Delete</th>
+        </tr>
+      </thead>
+      <tbody id="myTable">
+        <tr th:each="judge : ${judges}">
+          <td><span th:text="${judge.name}" ></span></td>
+          <td><span th:text="${judge.lastName}" ></span></td>
+          <td><span th:text="${judge.mail}" ></span></td>
+          <td><span th:text="${judge.country}" ></span></td>
+          <td>
+            <form  th:action="@{/administrator/searchJudges/judge/} + ${{judge.judgeid}}"  method="get">
+              <button class="btn btn-info btn-block" type="submit">
+                <i>Detalis</i>
+              </button>
+            </form>
+          </td>
+          <td>
+            <form  th:action="@{/administrator/update/judge/} + ${{judge.judgeid}}"  method="get">
+              <button class="btn btn-primary btn-block" type="submit">
+                <i>Update</i>
+              </button>
+            </form>
+          </td>
+          <td>
+            <form  th:action="@{/administrator/delete/judge/} + ${{judge.judgeid}}"  method="get">
+              <button class="btn btn-danger btn-block"  type="submit">
+                <i>Delete</i>
+              </button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
-
 </div>
-
-
 </body>
 </html>

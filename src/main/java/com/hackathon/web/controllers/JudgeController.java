@@ -8,6 +8,7 @@ import com.hackathon.web.services.HackathonService;
 import com.hackathon.web.services.JudgeService;
 import com.hackathon.web.services.JudgehackathonService;
 import com.hackathon.web.services.MarkService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,19 +24,12 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 public class JudgeController {
     private final JudgeService judgeService;
     private final HackathonService hackathonService;
     private final JudgehackathonService judgehackathonService;
     private final MarkService markService;
-
-    public JudgeController(JudgeService judgeService, HackathonService hackathonService, JudgehackathonService judgehackathonService, MarkService markService) {
-        this.judgeService = judgeService;
-        this.hackathonService = hackathonService;
-        this.judgehackathonService = judgehackathonService;
-        this.markService = markService;
-    }
-
 
 
     @GetMapping("/administrator/delete/judge/{id}")
@@ -72,6 +66,7 @@ public class JudgeController {
        judgeService.deleteById(judge.getJudgeid());
 
        model.addAttribute("judge",judge);
+       model.addAttribute("message_error","Judge deleted successfully.");
 
 
         return "judgeOverview";
@@ -105,7 +100,7 @@ public class JudgeController {
 
     @GetMapping("/administrator/search/judges")
     public String getSearchJudges(Model model){
-        model.addAttribute("judges",judgeService.findAllByNameContains(""));
+        model.addAttribute("judges",judgeService.findAll());
         return "searchJudges";
     }
 
@@ -143,6 +138,7 @@ public class JudgeController {
 
         Judge updatedJudge = judgeService.save(judgeForUpdate);
         model.addAttribute("judge",updatedJudge);
+        model.addAttribute("message","Judge updated successfully.");
         return "judgeOverview";
     }
 

@@ -70,7 +70,7 @@ public class HackathonController {
 
     @GetMapping("/administrator/search/hackathons")
     public String getSearchHackathons(Model model){
-        model.addAttribute("hackathon",new Hackathon());
+        model.addAttribute("hackathons",hackathonService.findAll());
         return "searchHackathons";
     }
 

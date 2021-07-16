@@ -1,26 +1,55 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
     <title>Login page </title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+    <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+    <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 </head>
-<body>
+<body class="background">
 
-
-<div th:if="${param.logout}">
-    You have been logged out.
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1 class="text-lg-center text-primary title modal-title" align="center">Login</h1>
+        </div>
+    </div>
+    <div >
+        <form   th:action="@{'/judge/'}"  method="post">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group-sm">
+                        <label for="username">Username</label>
+                        <input required name="username" type="text" class="form-control" id="username">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group-sm">
+                        <label for="password">Password</label>
+                        <input required name="password" type="password" class="form-control" id="password" >
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p>   </p>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" value="Login" class="btn btn-primary btn-lg btn-block">Submit</button>
+                </div>
+            </div>
+        </form>
+        <div  class="form-group-sm" th:if="${message_error}">
+            <label class="text-danger"> Invalid username and password.</label>
+        </div>
+    </div>
 </div>
 
-<h1>Login:</h1>
-
-<form th:action="@{'/judge/'}"  method="post">
-    <div><label> Username: <input  required type="text" name="username"/> </label></div>
-    <div><label> Password: <input required type="password" name="password"/> </label></div>
-    <div><input type="submit" value="Login"/></div>
-</form>
-<div th:if="${message_error}">
-    Invalid username and password.
-</div>
 
 </body>
 </html>

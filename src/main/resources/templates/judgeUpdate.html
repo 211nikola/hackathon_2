@@ -4,14 +4,17 @@
   <meta charset="UTF-8">
   <title>Judge</title>
 
-  <link rel="stylesheet" th:href="@{/style/header.css}">
+  <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+  <script th:src="@{/webjars/jquery/3.0.0/jquery.min.js}"></script>
+  <script th:src="@{/webjars/popper.js/1.12.9-1/umd/popper.min.js}"></script>
+  <script th:src="@{/webjars/bootstrap/4.0.0-2/js/bootstrap.min.js}"></script>
 
 
 
 </head>
-<body>
+<body class="background">
 
-<div th:replace="fragments/header :: header"></div>
+<div th:replace="fragments/navbar_admin :: header"></div>
 
 <div class="container">
 
@@ -19,37 +22,37 @@
     <form th:action="@{'/administrator/update/judge/' + ${judge.judgeid}}" th:object="${judge}" method="post">
       <div><h1>Details for judge:</h1></div>
 
-      <div>
+      <div class="form-group">
         <label>Username :</label>
-        <input  th:field="${judge.username}" type="text">
+        <input  th:field="${judge.username}" class="form-control" type="text">
       </div>
-      <div>
+      <div class="form-group">
         <label>Password :</label>
-        <input  th:field="${judge.password}" type="text">
+        <input  th:field="${judge.password}" class="form-control" type="text">
       </div>
-      <div>
+      <div class="form-group">
         <label>Name:</label>
-        <input  th:field="${judge.name}" type="text">
+        <input  th:field="${judge.name}" class="form-control" type="text">
       </div>
-      <div>
+      <div class="form-group">
         <label>Last name:</label>
-        <input  th:field="${judge.lastName}" type="text">
+        <input  th:field="${judge.lastName}" class="form-control" type="text">
       </div>
-      <div>
+      <div class="form-group">
         <label>Mail :</label>
-        <input  th:field="${judge.mail}" type="text">
+        <input  th:field="${judge.mail}"  class="form-control"type="text">
       </div>
-      <div>
+      <div class="form-group">
         <label>Country :</label>
-        <input  th:field="${judge.country}" type="text">
+        <input  th:field="${judge.country}" class="form-control" type="text">
       </div>
-      <div>
+      <div class="form-group">
         <label>Profession :</label>
-        <input  th:field="${judge.profession}" type="text">
+        <input  th:field="${judge.profession}"  class="form-control" type="text">
       </div>
-
-      <button type="submit" >Update</button>
-
+      <p></p>
+      <button class="btn btn-primary btn-lg" type="submit" >Update</button>
+      <p></p>
       <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
         <p>Please correct your input</p>
       </div>

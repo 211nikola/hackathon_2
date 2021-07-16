@@ -24,7 +24,7 @@ public class MemberController {
 
     @GetMapping("/administrator/search/members")
     public String searchMembers(Model model){
-        model.addAttribute("member",new Member());
+        model.addAttribute("members",memberService.findAll());
         return "searchMembers";
     }
 
@@ -39,6 +39,7 @@ public class MemberController {
 
         memberService.deleteById(Long.valueOf(id));
         model.addAttribute("members",memberService.findAll());
+        model.addAttribute("message_error","Member deleted successfully.");
         return "searchMembers";
     }
 

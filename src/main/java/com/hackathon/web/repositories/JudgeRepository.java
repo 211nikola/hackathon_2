@@ -11,7 +11,7 @@ import java.util.List;
 public interface JudgeRepository extends CrudRepository<Judge,Long> {
     List<Judge> findAllByNameContains(String search);
     Judge findByNameContains(String search);
-
+    List<Judge> findAll();
     Judge findByJudgeid(Long id);
     List<Judge> findAllByJudgeid(Long id);
     Judge findByUsernameAndPassword(String username,String password);
