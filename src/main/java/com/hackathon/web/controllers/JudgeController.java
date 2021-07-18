@@ -158,7 +158,7 @@ public class JudgeController {
         return "judgeOverview";
     }
 
-    @GetMapping("/judge/login")
+    @GetMapping("/judgeLogin")
     public String redirectToJudgeLogin(){
         return "judgeLogin";
     }

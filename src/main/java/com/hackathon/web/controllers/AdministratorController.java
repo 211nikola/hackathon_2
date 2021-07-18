@@ -18,7 +18,7 @@ public class AdministratorController {
 
     private final AdministratorService administratorService;
 
-    @GetMapping("/administrator/login")
+    @GetMapping("/administratorLogin")
     public String redirectToAdminLogin(){
         return "administratorLogin";
     }
