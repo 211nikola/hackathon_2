@@ -119,14 +119,13 @@
                 <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
                 <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].role}" />
                 <td>
-                <span>
-                    <button  class="btn btn-danger btn-block" onclick="document.getElementById('id01').style.display='block'"
+                   <span>
+                      <button  class="btn btn-danger btn-block" onclick="document.getElementById('id01').style.display='block'"
                              th:value="*{members[__${rowStat.index}__].id.memberID}" name="removeMember">
                               <i >Delete</i>
-                                        </button>
-                                </span>
+                      </button>
+                   </span>
                  </td>
-
               </tr>
               </tbody>
             </table>
