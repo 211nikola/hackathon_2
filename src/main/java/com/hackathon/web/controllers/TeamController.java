@@ -4,6 +4,7 @@ import com.hackathon.web.domain.*;
 import com.hackathon.web.domainDTO.MarkDTO;
 import com.hackathon.web.services.*;
 import com.hackathon.web.utils.RandomIdGenerator;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 public class TeamController {
 
     private final TeamService teamService;
@@ -27,15 +29,6 @@ public class TeamController {
     private final JudgeService judgeService;
     private final MemberService memberService;
     private final MentorService mentorService;
-
-    public TeamController(TeamService teamService, HackathonService hackathonService, MarkService markService, JudgeService judgeService, MemberService memberService, MentorService mentorService) {
-        this.teamService = teamService;
-        this.hackathonService = hackathonService;
-        this.markService = markService;
-        this.judgeService = judgeService;
-        this.memberService = memberService;
-        this.mentorService = mentorService;
-    }
 
     @PostMapping("/judge/findTeams/team/{id}/saveMark")
     public String saveMark(@Valid @ModelAttribute MarkDTO markDTO,
@@ -46,7 +39,7 @@ public class TeamController {
 
         MarkDTO mdto = markDTO;
 
-        Judge loggedInJudge = (Judge) request.getSession().getAttribute("user");
+        Judge loggedInJudge = (Judge) request.getSession().getAttribute("user_judge");
         Long judgeid = loggedInJudge.getJudgeid();
 
 
@@ -77,7 +70,7 @@ public class TeamController {
                                 HttpServletRequest request,
                                 Model model) {
 
-        Judge loggedInJudge = (Judge) request.getSession().getAttribute("user");
+        Judge loggedInJudge = (Judge) request.getSession().getAttribute("user_judge");
         Long judgeid = loggedInJudge.getJudgeid();
 
         Long teamid = Long.valueOf(id);
@@ -155,6 +148,8 @@ public class TeamController {
         return "team";
     }
 
+
+
     @PostMapping("/administrator/delete/team/{id}")
     public String deleteTeam(Model model,
                                @PathVariable String id){
@@ -180,6 +175,7 @@ public class TeamController {
 
         teamService.deleteById(team.getTeamID());
         model.addAttribute("teams",teamService.findAll());
+        model.addAttribute("message_delete","Team was deleted successfully.");
         return "searchTeams";
     }
 
@@ -214,7 +210,7 @@ public class TeamController {
         }
 
         if(team.getAdministrator() == null){
-            Administrator administrator = (Administrator) request.getSession().getAttribute("user");
+            Administrator administrator = (Administrator) request.getSession().getAttribute("user_admin");
             team.setAdministrator(administrator);
         }
 
@@ -291,7 +287,7 @@ public class TeamController {
         }
 
         if(team.getAdministrator() == null){
-            Administrator administrator = (Administrator) request.getSession().getAttribute("user");
+            Administrator administrator = (Administrator) request.getSession().getAttribute("user_admin");
             team.setAdministrator(administrator);
         }
 

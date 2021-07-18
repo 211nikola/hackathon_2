@@ -35,9 +35,7 @@ public class JudgeController {
     @GetMapping("/administrator/delete/judge/{id}")
     public String getJudgeDelete(Model model,
                                  @PathVariable String id){
-
         model.addAttribute("judge",judgeService.findByJudgeid(Long.valueOf(id)));
-
         return "judgeDelete";
     }
 
@@ -168,7 +166,7 @@ public class JudgeController {
     @GetMapping("/judge/marks")
     public String getMarks(Model model,HttpServletRequest request){
 
-        Judge judge = (Judge) request.getSession().getAttribute("user");
+        Judge judge = (Judge) request.getSession().getAttribute("user_judge");
         List<Mark> marks = markService.findAllByJudge_Judgeid(judge.getJudgeid());
         model.addAttribute("marks",marks);
 
@@ -178,7 +176,7 @@ public class JudgeController {
     @GetMapping("/judge")
     public String judge(Model model, HttpServletRequest request){
 
-        Judge judge = (Judge) request.getSession().getAttribute("user");
+        Judge judge = (Judge) request.getSession().getAttribute("user_judge");
         if(judge != null){
 
             List<Judgehackathon> judgehackathonList = judgehackathonService.
@@ -225,7 +223,7 @@ public class JudgeController {
 
             model.addAttribute("hackathons",hackathonList);
             model.addAttribute("judge",judge);
-            session.setAttribute("user",judge);
+            session.setAttribute("user_judge",judge);
             return "judge" ;
         }
 

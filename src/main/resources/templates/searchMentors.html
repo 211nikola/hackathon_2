@@ -42,16 +42,37 @@
                 </form>
               </td>
               <td>
-                <form  th:action="@{/administrator/delete/mentor/} + ${{mentor.mentorID}}"  method="post">
-                  <button class="btn btn-danger btn-block" type="submit">
-                    <i>Delete</i>
-                  </button>
-                </form>
+                <a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${mentor.mentorID}" class="btn btn-danger btn-block"  type="submit">
+                  <i>Delete</i>
+                </a>
               </td>
+              <div class="modal modal-warning fade in" th:id="modal-warning+${mentor.mentorID}" >
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title ">Delete mentor</h5>
+                    </div>
+                    <div class="modal-body">
+                      <h3>Are you sure want to delete this mentor?</h3>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                      <form th:action="@{/administrator/delete/mentor/} + ${{mentor.mentorID}}"  method="post">
+                        <button type="submit" class="btn btn-outline btn-danger" >
+                          <i class="fa fa-check"></i>&nbsp;Yes
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </tr>
           </tbody>
         </table>
   </div>
+    <div th:unless="${ not#lists.isEmpty(mentors)}">
+        <label class="alert-info">No mentors found.</label>
+    </div>
 </div>
 </body>
 </html>

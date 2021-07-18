@@ -2,6 +2,7 @@ package com.hackathon.web.controllers;
 
 import com.hackathon.web.domain.*;
 import com.hackathon.web.services.AdministratorService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,19 +10,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 public class AdministratorController {
 
     private final AdministratorService administratorService;
-
-    public AdministratorController(AdministratorService administratorService) {
-        this.administratorService = administratorService;
-    }
 
     @GetMapping("/administratorLogin")
     public String redirectToAdminLogin(){
@@ -48,7 +43,7 @@ public class AdministratorController {
             System.out.println("Administrator found!");
 
             model.addAttribute("administrator", administrator);
-            session.setAttribute("user",administrator);
+            session.setAttribute("user_admin",administrator);
             System.out.println(administrator.getAdministratorid());
 
             return "administrator";

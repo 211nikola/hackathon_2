@@ -5,6 +5,7 @@ import com.hackathon.web.services.HackathonService;
 import com.hackathon.web.services.JudgeService;
 import com.hackathon.web.services.JudgehackathonService;
 import com.hackathon.web.services.TeamService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +18,12 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 public class HackathonController {
     private final HackathonService hackathonService;
     private final TeamService teamService;
     private final JudgehackathonService judgehackathonService;
     private final JudgeService judgeService;
-
-    public HackathonController(HackathonService hackathonService, TeamService teamService, JudgehackathonService judgehackathonService, JudgeService judgeService) {
-        this.hackathonService = hackathonService;
-        this.teamService = teamService;
-        this.judgehackathonService = judgehackathonService;
-        this.judgeService = judgeService;
-    }
 
 
     @GetMapping("/administrator/saveHackathon/getAvailableJudges")
@@ -95,7 +90,7 @@ public class HackathonController {
         Hackathon h = new Hackathon();
         h.setName(hackathon.getName());
         h.setDate(hackathon.getDate());
-        Administrator administrator = (Administrator) request.getSession().getAttribute("user");
+        Administrator administrator = (Administrator) request.getSession().getAttribute("user_admin");
         h.setAdministrator((Administrator) request.getSession().getAttribute("user"));
 
         List<Judge> judges = new ArrayList<>();

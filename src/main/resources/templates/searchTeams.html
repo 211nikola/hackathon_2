@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymleaf.org">
+<html lang="en" xmlns:th="http://www.thymleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
   <meta charset="UTF-8">
   <title>Search teams</title>
@@ -17,6 +17,10 @@
   <p></p>
   <input class="form-control mb-4" id="tableSearch" type="text"
          placeholder="Search">
+  <p></p>
+  <div class="alert alert-danger" th:if="${message_delete}">
+    <h3 th:text="${message_delete}"></h3>
+  </div>
   <div th:if="${ not#lists.isEmpty(teams)}">
     <table class="table table-condensed" border="1">
       <thead class="thead-dark">
@@ -37,12 +41,32 @@
             </form>
           </td>
           <td>
-            <form onsubmit="return confirm('Are you sure?');" th:action="@{/administrator/delete/team/} + ${{team.teamID}}"  method="post">
-              <button class="btn btn-danger btn-block"  type="submit">
-                <i>Delete</i>
-              </button>
-            </form>
+            <a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${team.teamID }" class="btn btn-danger btn-block"  type="submit">
+              <i>Delete</i>
+            </a>
           </td>
+          <div class="modal modal-warning fade in" th:id="modal-warning+${team.teamID}" >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+
+                  <h5 class="modal-title ">Delete Team</h5>
+                </div>
+                <div class="modal-body">
+                  <h3>Are you sure want to delete this team?</h3>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+                  <form th:action="@{/administrator/delete/team/} + ${{team.teamID}}"  method="post">
+                    <button type="submit" class="btn btn-outline btn-danger" >
+                      <i class="fa fa-check"></i>&nbsp;Yes
+                    </button>
+                  </form>
+
+                </div>
+              </div>
+            </div>
+          </div>
         </tr>
       </tbody>
     </table>

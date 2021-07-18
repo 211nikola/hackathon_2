@@ -2,6 +2,7 @@ package com.hackathon.web.controllers;
 
 import com.hackathon.web.domain.*;
 import com.hackathon.web.services.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@AllArgsConstructor
 public class LoginController {
 
     private final AdministratorService administratorService;
@@ -19,14 +21,6 @@ public class LoginController {
     private final TeamService teamService;
     private final HackathonService hackathonService;
     private final JudgehackathonService judgehackathonService;
-
-    public LoginController(AdministratorService administratorService, JudgeService judgeService, TeamService teamService, HackathonService hackathonService, JudgehackathonService judgehackathonService) {
-        this.administratorService = administratorService;
-        this.judgeService = judgeService;
-        this.teamService = teamService;
-        this.hackathonService = hackathonService;
-        this.judgehackathonService = judgehackathonService;
-    }
 
     @RequestMapping("/login")
     public String login(){

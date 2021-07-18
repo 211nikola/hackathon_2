@@ -11,19 +11,14 @@
 
 </head>
 <body class="backgorund">
-
 <div th:replace="fragments/navbar_admin :: header"></div>
-
 <div class="container">
-
-  <div>
-    <form onsubmit="return confirm('Are you sure?');" th:action="@{'/administrator/delete/judge/' + ${judge.judgeid}}" th:object="${judge}" method="post">
+  <div th:object="${judge}">
       <div class="row">
         <div class="col">
           <div><h1>Delete judge:</h1></div>
         </div>
       </div>
-
       <div class="row">
         <div class="col">
           <div class="form-group">
@@ -57,9 +52,30 @@
         </div>
       </div>
       <br>
-      <button class="btn btn-danger" type="submit" >Delete</button>
+      <a data-toggle="modal" data-target="#modal-warning" th:attr="data-target='#modal-warning'+${judge.judgeid}" class="btn btn-danger btn-lg text-light"  type="submit">
+        <i>Delete</i>
+      </a>
       <br>
-    </form>
+      <div class="modal modal-warning fade in" th:id="modal-warning+${judge.judgeid}" >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title ">Delete judge</h5>
+            </div>
+            <div class="modal-body">
+              <h3>Are you sure want to delete this judge?</h3>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">Close</button>
+              <form th:action="@{'/administrator/delete/judge/' + ${judge.judgeid}}"  method="post">
+                <button type="submit" class="btn btn-outline btn-danger">
+                  <i class="fa fa-check"></i>&nbsp;Yes
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
 </body>

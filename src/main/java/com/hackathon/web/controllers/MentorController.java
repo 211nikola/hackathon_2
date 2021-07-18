@@ -1,9 +1,11 @@
 package com.hackathon.web.controllers;
 
 import com.hackathon.web.domain.*;
+import com.hackathon.web.services.MarkService;
 import com.hackathon.web.services.MemberService;
 import com.hackathon.web.services.MentorService;
 import com.hackathon.web.services.TeamService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,16 +18,12 @@ import java.util.*;
 
 @Slf4j
 @Controller
+@AllArgsConstructor
 public class MentorController {
     private final MentorService mentorService;
     private final TeamService teamService;
     private final MemberService memberService;
-
-    public MentorController(MentorService mentorService, TeamService teamService, MemberService memberService) {
-        this.mentorService = mentorService;
-        this.teamService = teamService;
-        this.memberService = memberService;
-    }
+    private final MarkService markService;
 
     @GetMapping("/mentor/findMentors")
     public List<Mentor> findMentors(Model model){
@@ -53,7 +51,7 @@ public class MentorController {
             return "mentor";
         }
 
-        Administrator administrator = (Administrator) request.getSession().getAttribute("user");
+        Administrator administrator = (Administrator) request.getSession().getAttribute("user_admin");
         System.out.println(administrator.getName());
         Set<Team> teams = new HashSet<>();
         Mentor m = new Mentor(
@@ -80,6 +78,7 @@ public class MentorController {
         Mentor mentor = mentorService.findByMentorID(Long.valueOf(id));
         List<Team> teams = teamService.findAllByMentor_MentorID(mentor.getMentorID());
         List<Member> members = new ArrayList<>();
+        List<Mark> marks = new ArrayList<>();
         for (Team team:teams
              ) {
             members = memberService.findAllByTeam_TeamID(team.getTeamID());
@@ -89,6 +88,15 @@ public class MentorController {
                     MemberId mID = member.getId();
                      Long memberID = mID.getMemberID();
                     memberService.deleteById(memberID);
+                }
+            }
+            marks = markService.findAllByTeam_TeamID(team.getTeamID());
+            if(!marks.isEmpty()){
+                for (Mark mark :
+                        marks) {
+                    MarkId markID = mark.getId();
+                    Long markid = markID.getMarkid();
+                    markService.deleteMarkByIdIs(markid);
                 }
             }
             teamService.deleteById(team.getTeamID());

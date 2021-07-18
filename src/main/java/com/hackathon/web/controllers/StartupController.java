@@ -1,5 +1,6 @@
 package com.hackathon.web.controllers;
 
+import com.hackathon.web.domain.Administrator;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,15 +31,17 @@ public class StartupController {
 
         HttpServletResponse resp = (HttpServletResponse) response;
         HttpSession session = request.getSession();
-        session.removeAttribute("user");
+        if(session.getAttribute("user_admin") != null){
+            session.removeAttribute("user_admin");
+        }else{
+            session.removeAttribute("user_judge");
+        }
+
         session.invalidate();
         resp.setHeader("Expires", "Tue, 03 Jul 2001 06:00:00 GMT");
         resp.setHeader("Last-Modified", new Date().toString());
         resp.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0, post-check=0, pre-check=0");
         resp.setHeader("Pragma", "no-cache");
-
-
-
         redirectAttributes.addFlashAttribute("message_logout","Logged out");
         return "redirect:/startup";
     }
