@@ -20,18 +20,38 @@
       <div class="form-group">
         <label >Name:</label>
         <input  th:field="${mentor.name}"  required class="form-control" type="text" >
+          <span class="help-block" th:if="${#fields.hasErrors('name')}">
+             <ul>
+                  <li class="text-danger" th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+             </ul>
+         </span>
       </div>
       <div class="form-group">
         <label >Last name:</label>
         <input  th:field="${mentor.lastName}"required  class="form-control" type="text" >
+        <span class="help-block" th:if="${#fields.hasErrors('lastName')}">
+             <ul>
+                  <li class="text-danger" th:each="error : ${#fields.errors('lastName')}" th:text="${error}"></li>
+             </ul>
+         </span>
       </div>
       <div class="form-group">
         <label >Email address:</label>
         <input  th:field="${mentor.mail}" required  class="form-control" type="email" >
+        <span class="help-block" th:if="${#fields.hasErrors('mail')}">
+             <ul>
+                  <li class="text-danger" th:each="error : ${#fields.errors('mail')}" th:text="${error}"></li>
+             </ul>
+         </span>
       </div>
       <div class="form-group">
         <label >Profession:</label>
         <input  th:field="${mentor.profession}" required class="form-control" type="text" >
+        <span class="help-block" th:if="${#fields.hasErrors('profession')}">
+             <ul>
+                  <li class="text-danger" th:each="error : ${#fields.errors('profession')}" th:text="${error}"></li>
+             </ul>
+         </span>
       </div>
       <button type="submit" class="btn btn-primary" value="submit">Save</button>
       <div  th:if="${#fields.hasErrors('*')}" class="alert alert-danger">

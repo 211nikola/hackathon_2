@@ -4,8 +4,7 @@ package com.hackathon.web.domain;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Set;
 
@@ -23,19 +22,39 @@ public class Administrator {
     private Long administratorid;
 
     @Size(min = 2, max = 255)
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String username;
 
+    @Size(min = 2, max = 255)
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String password;
 
     @Size(min = 2, max = 255)
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String name;
 
     @Size(min = 2, max = 255)
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String lastName;
 
     @Email
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String mail;
 
+    @Size(min = 2, max = 255)
+    @NotEmpty
+    @NotNull
+    @NotBlank
     private String adminType;
 
 

@@ -10,9 +10,12 @@ import com.hackathon.web.services.JudgehackathonService;
 import com.hackathon.web.services.MarkService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.implementation.bind.annotation.BindingPriority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -77,16 +80,27 @@ public class JudgeController {
     }
 
     @PostMapping("/administrator/addJudge")
-    public String saveJudge(Model model,
+    public String saveJudge(
                             @Valid
+                            @Validated
                             @ModelAttribute Judge judge,
-                            BindingResult bindingResult){
+                            BindingResult bindingResult,
+                            Model model){
 
-        if (bindingResult.hasErrors()) {
-            log.warn("CANNOT SAVE:");
+        if(bindingResult.hasFieldErrors() || bindingResult.hasFieldErrors() || bindingResult.hasGlobalErrors() || bindingResult.hasErrors()){
+            log.warn("SAVING ERROR");
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.warn(objectError.toString());
+                log.warn("##########");
             });
+            return "judgeOverview";
+        }
+
+        String username = judge.getUsername();
+        Judge judgeExist = judgeService.findByUsername(username);
+        if(judgeExist != null){
+            //model.addAttribute("message_error","This username already exist.");
+            bindingResult.rejectValue("username","error.username","Username already exist");
             return "judgeOverview";
         }
         Judge savedJudge = judgeService.save(judge);

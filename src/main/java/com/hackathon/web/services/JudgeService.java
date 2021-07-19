@@ -17,6 +17,8 @@ public interface JudgeService {
     List<Judge> findAllByNameContains(String search);
     void deleteById(Long aLong);
     List<Judge> findAll();
+    Judge findByUsername(String username);
+
 
 
 

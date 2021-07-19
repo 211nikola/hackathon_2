@@ -3,17 +3,15 @@ package com.hackathon.web.services.impl;
 import com.hackathon.web.domain.Judgehackathon;
 import com.hackathon.web.repositories.JudgehackathonRepository;
 import com.hackathon.web.services.JudgehackathonService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class JudgehackathonServiceImpl implements JudgehackathonService {
     private final JudgehackathonRepository repository;
-
-    public JudgehackathonServiceImpl(JudgehackathonRepository repository) {
-        this.repository = repository;
-    }
 
 
     @Override

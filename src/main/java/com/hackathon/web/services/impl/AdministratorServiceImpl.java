@@ -3,18 +3,16 @@ package com.hackathon.web.services.impl;
 import com.hackathon.web.domain.Administrator;
 import com.hackathon.web.repositories.AdministratorRepository;
 import com.hackathon.web.services.AdministratorService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class AdministratorServiceImpl implements AdministratorService {
 
     private final AdministratorRepository repository;
-
-    public AdministratorServiceImpl(AdministratorRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public List<Administrator> findAdministratorsByName() {

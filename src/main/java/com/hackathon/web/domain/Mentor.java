@@ -7,9 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Set;
 
 @Getter
@@ -25,19 +23,28 @@ public class Mentor {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long mentorID;
 
-    @NotBlank
     @Size(min = 2, max = 255)
+    @NotBlank
+    @NotNull
+    @NotEmpty
     private String name;
 
     @Email
+    @NotBlank
+    @NotNull
+    @NotEmpty
     private String mail;
 
-    @NotBlank
     @Size(min = 2, max = 255)
+    @NotBlank
+    @NotNull
+    @NotEmpty
     private String lastName;
 
-    @NotBlank
     @Size(min = 2, max = 255)
+    @NotBlank
+    @NotNull
+    @NotEmpty
     private String profession;
 
     @ManyToOne(fetch = FetchType.EAGER)

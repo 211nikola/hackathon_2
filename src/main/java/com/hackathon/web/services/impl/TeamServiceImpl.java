@@ -3,18 +3,16 @@ package com.hackathon.web.services.impl;
 import com.hackathon.web.domain.Team;
 import com.hackathon.web.repositories.TeamRepository;
 import com.hackathon.web.services.TeamService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TeamServiceImpl implements TeamService {
 
     private final TeamRepository repository;
-
-    public TeamServiceImpl(TeamRepository repository) {
-        this.repository = repository;
-    }
 
 
     @Override

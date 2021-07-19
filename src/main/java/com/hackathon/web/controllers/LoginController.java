@@ -71,9 +71,7 @@ public class LoginController {
             }
 
         }else {
-
             System.out.println("Administrator found!");
-
             model.addAttribute("administrator", administrator);
             System.out.println(administrator.getAdministratorid());
 

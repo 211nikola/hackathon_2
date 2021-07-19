@@ -3,18 +3,16 @@ package com.hackathon.web.services.impl;
 import com.hackathon.web.domain.Hackathon;
 import com.hackathon.web.repositories.HackathonRepository;
 import com.hackathon.web.services.HackathonService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class HackathonServiceImpl implements HackathonService {
 
     private final HackathonRepository repository;
-
-    public HackathonServiceImpl(HackathonRepository repository) {
-        this.repository = repository;
-    }
 
 
     @Override

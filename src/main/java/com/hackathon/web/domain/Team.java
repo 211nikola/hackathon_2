@@ -7,6 +7,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.List;
@@ -25,8 +27,10 @@ public class Team {
     @Column(name="teamid")
     private Long teamID;
 
-    @NotBlank
     @Size(min = 2, max = 255)
+    @NotBlank
+    @NotNull
+    @NotEmpty
     private String name;
 
 

@@ -3,17 +3,15 @@ package com.hackathon.web.services.impl;
 import com.hackathon.web.domain.Member;
 import com.hackathon.web.repositories.MemberRepository;
 import com.hackathon.web.services.MemberService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class MemberServiceImpl implements MemberService {
     private final MemberRepository repository;
-
-    public MemberServiceImpl(MemberRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Member save(Member member) {

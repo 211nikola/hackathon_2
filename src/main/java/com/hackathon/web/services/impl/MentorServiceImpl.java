@@ -3,18 +3,16 @@ package com.hackathon.web.services.impl;
 import com.hackathon.web.domain.Mentor;
 import com.hackathon.web.repositories.MentorRepository;
 import com.hackathon.web.services.MentorService;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class MentorServiceImpl implements MentorService {
 
     private final MentorRepository repository;
-
-    public MentorServiceImpl(MentorRepository repository) {
-        this.repository = repository;
-    }
 
     @Override
     public Mentor save(Mentor mentor) {
