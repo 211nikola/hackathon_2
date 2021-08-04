@@ -13,6 +13,11 @@
 <div th:replace="fragments/navbar_admin :: header "></div>
 <div class="container">
   <p></p>
+  <div class="row">
+    <div class="col">
+      <div><h1 class="text-info">Search members:</h1></div>
+    </div>
+  </div>
   <form th:action="@{'/administrator/search/members'}" method="post">
     <div class="form-row">
       <div class="form-group col-sm-10">
@@ -82,7 +87,7 @@
     </table>
   </div>
   <div th:unless="${ not#lists.isEmpty(members)}">
-    <label class="alert-info">No members found.</label>
+    <label class="alert-info">No result for input search.</label>
   </div>
 </div>
 </body>

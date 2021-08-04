@@ -18,7 +18,6 @@ public class Mark {
     @EmbeddedId
     private MarkId id;
 
-
     @Min(value = 1)
     @Max(value = 5)
     @NotEmpty

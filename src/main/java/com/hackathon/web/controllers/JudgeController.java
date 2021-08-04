@@ -98,6 +98,9 @@ public class JudgeController {
 
         String username = judge.getUsername();
         Judge judgeExist = judgeService.findByUsername(username);
+
+
+
         if(judgeExist != null){
             //model.addAttribute("message_error","This username already exist.");
             bindingResult.rejectValue("username","error.username","Username already exist");
@@ -136,6 +139,7 @@ public class JudgeController {
     @PostMapping("/administrator/update/judge/{id}")
     public String updateJudge(Model model,
                               @PathVariable String id,
+                              @Valid
                               @ModelAttribute Judge judgeForUpdate,
                               BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
@@ -143,8 +147,25 @@ public class JudgeController {
             bindingResult.getAllErrors().forEach(objectError -> {
                 log.warn(objectError.toString());
             });
-            return "judgeOverview";
+            judgeForUpdate.setJudgeid(Long.valueOf(id));
+            model.addAttribute("judge",judgeForUpdate);
+
+            return "judgeUpdate";
         }
+
+        String username = judgeForUpdate.getUsername();
+        Judge judgeExist = judgeService.findByUsername(username);
+
+
+
+        if(judgeExist != null){
+            //model.addAttribute("message_error","This username already exist.");
+            bindingResult.rejectValue("username","error.username","Username already exist");
+            judgeForUpdate.setJudgeid(Long.valueOf(id));
+            model.addAttribute("judge",judgeForUpdate);
+            return "judgeUpdate";
+        }
+
         Judge judge = judgeService.findByJudgeid(Long.valueOf(id));
         judgeForUpdate.setJudgeid(judge.getJudgeid());
 

@@ -66,6 +66,11 @@
           <div class="form-group">
             <label >Name:</label>
             <input    type="text" th:field="*{name}"  required class="form-control"/>
+            <span class="help-block" th:if="${#fields.hasErrors('name')}">
+             <ul>
+               <li class="text-danger" th:each="error : ${#fields.errors('name')}" th:text="${error}"></li>
+             </ul>
+           </span>
             <div>
               <label >Hackathon:</label>
               <select class="form-control custom-select" name="hackathon" th:field="*{hackathon}">
@@ -114,10 +119,18 @@
               <tbody>
               <tr class="form-group" th:each="member, rowStat : *{members}">
                 <td hidden><input class="form-control"  readonly type="text"  th:field="*{members[__${rowStat.index}__].id.memberID}"  /></td>
-                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].name}" />
-                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].lastName}" />
-                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
-                <td><input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].role}" />
+                <td>
+                  <input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].name}" />
+                </td>
+                <td>
+                  <input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].lastName}" />
+                </td>
+                <td>
+                  <input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].mail}" />
+                </td>
+                <td>
+                  <input class="form-control" required type="text"  th:field="*{members[__${rowStat.index}__].role}" />
+                </td>
                 <td>
                    <span>
                       <button  class="btn btn-danger btn-block" onclick="document.getElementById('id01').style.display='block'"
@@ -141,6 +154,10 @@
       <p>Please correct your input</p>
     </div>
   </form>
+  <p></p>
+  <div class="alert alert-danger" th:if="${message_error}">
+    <h3 th:text="${message_error}"></h3>
+  </div>
 </div>
 </div>
 </body>

@@ -16,6 +16,11 @@
 <div th:replace="fragments/navbar_admin :: header"></div>
 <div class="container">
     <p></p>
+    <div class="row">
+        <div class="col">
+            <div><h1 class="text-info">Search hackathons:</h1></div>
+        </div>
+    </div>
     <div th:if="${ not#lists.isEmpty(hackathons)}">
         <input class="form-control mb-4" id="tableSearch" type="text"
                placeholder="Search">

@@ -34,7 +34,7 @@ public class Judge {
     @NotBlank
     @NotNull
     @Size(min = 2, max = 255)
-    @Column(unique = true)
+    @Column(unique = true,nullable = false)
     private String username;
 
     @NotBlank

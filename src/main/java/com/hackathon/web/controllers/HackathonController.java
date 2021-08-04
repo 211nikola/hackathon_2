@@ -91,7 +91,7 @@ public class HackathonController {
         h.setName(hackathon.getName());
         h.setDate(hackathon.getDate());
         Administrator administrator = (Administrator) request.getSession().getAttribute("user_admin");
-        h.setAdministrator((Administrator) request.getSession().getAttribute("user"));
+        h.setAdministrator(administrator);
 
         List<Judge> judges = new ArrayList<>();
 

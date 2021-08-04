@@ -267,51 +267,61 @@ public class TeamController {
 
     @PostMapping("/administrator/addTeam")
     public String saveTeam(Model model,
-                          @NotNull @Valid
+                           @Valid
                            @ModelAttribute Team team,
                            BindingResult bindingResult,
                            HttpServletRequest request){
 
-        if (bindingResult.hasErrors()) {
-            log.warn("CANNOT SAVE:");
-            bindingResult.getAllErrors().forEach(objectError -> {
-                log.warn(objectError.toString());
-            });
-            Team t = new Team();
 
-            team.setTeamID(-1L);
-            model.addAttribute("team",t);
+        try{
+            if (bindingResult.hasErrors()) {
+                log.warn("CANNOT SAVE:");
+                bindingResult.getAllErrors().forEach(objectError -> {
+                    log.warn(objectError.toString());
+                });
+                model.addAttribute("hackathons",hackathonService.findAll());
+                model.addAttribute("mentors",mentorService.findAll());
+                return "team";
+            }
+
+
+            if(team.getAdministrator() == null){
+                Administrator administrator = (Administrator) request.getSession().getAttribute("user_admin");
+                team.setAdministrator(administrator);
+            }
+
+            Team teamForSave = new Team(null,team.getName(),new ArrayList<>(),new HashSet<>(), team.getMentor(), team.getAdministrator(), team.getHackathon());
+            Team savedTeam = teamService.save(teamForSave);
+            savedTeam.setMembers(team.getMembers());
+
+            if(team.getMembers() != null ) {
+                for (Member m :
+                        team.getMembers()) {
+
+                    m.setTeam(savedTeam);
+                    m.setId(new MemberId(RandomIdGenerator.randomMemberId(),savedTeam.getTeamID()));
+
+                }
+            }
+
+            teamService.save(savedTeam);
+
+            model.addAttribute("members",team.getMembers());
+            model.addAttribute("team",savedTeam);
+            model.addAttribute("message", "Team created successfully");
+
+            return "team";
+        } catch ( Exception e){
+            // Rethrow with a controller method specific exception
             model.addAttribute("hackathons",hackathonService.findAll());
             model.addAttribute("mentors",mentorService.findAll());
+            model.addAttribute("message_error","System is unable to process your request.");
             return "team";
+
         }
 
-        if(team.getAdministrator() == null){
-            Administrator administrator = (Administrator) request.getSession().getAttribute("user_admin");
-            team.setAdministrator(administrator);
-        }
 
-        Team teamForSave = new Team(null,team.getName(),new ArrayList<>(),new HashSet<>(), team.getMentor(), team.getAdministrator(), team.getHackathon());
-        Team savedTeam = teamService.save(teamForSave);
-        savedTeam.setMembers(team.getMembers());
 
-        if(team.getMembers() != null ) {
-            for (Member m :
-                    team.getMembers()) {
-
-                m.setTeam(savedTeam);
-                m.setId(new MemberId(RandomIdGenerator.randomMemberId(),savedTeam.getTeamID()));
-
-            }
-        }
-
-        teamService.save(savedTeam);
-
-        model.addAttribute("members",team.getMembers());
-        model.addAttribute("team",savedTeam);
-        model.addAttribute("message", "Team created successfully");
-
-        return "team";
     }
 
 

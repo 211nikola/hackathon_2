@@ -2,47 +2,28 @@ package com.hackathon.web.repositories;
 
 import com.hackathon.web.domain.Administrator;
 import com.hackathon.web.domain.Hackathon;
-import com.hackathon.web.domain.Judgehackathon;
-import com.hackathon.web.domain.Team;
-import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class AdministratorRepositoryTest {
+public class AdministratorRepositoryIntegrationTest {
 
     @Autowired
-    AdministratorRepository repository;
-
+    AdministratorRepository administratorRepository;
     @Autowired
     HackathonRepository hackathonRepository;
 
-
-
     @Test
-    void deleteById() {
-
-    }
-
-    @Test
-    void findAdministratorByAdministratorID() {
-    }
-
-    @Test
-    void findAdministratorsByName() {
-    }
-
-    @Test
-    void save() {
+    public void whenFindByName_thenReturnAdministrator(){
 
         Administrator administrator = new Administrator();
 
@@ -53,7 +34,7 @@ class AdministratorRepositoryTest {
         administrator.setUsername("test");
         administrator.setPassword("test");
 
-        Administrator savedAdministrator = repository.save(administrator);
+        Administrator savedAdministrator = administratorRepository.save(administrator);
 
         Hackathon hackathon = new Hackathon(1L,
                 new Date(),
@@ -63,27 +44,9 @@ class AdministratorRepositoryTest {
                 null);
 
         Hackathon savedHackathon = hackathonRepository.save(hackathon);
-
         assertNotNull(savedHackathon);
         assertThat(savedHackathon.getAdministrator().getAdministratorid()).isEqualTo(savedAdministrator.getAdministratorid());
         assertEquals(savedAdministrator.getAdministratorid(),savedHackathon.getAdministrator().getAdministratorid());
 
-       // sam test da napravi entitete
-       // ili @BeforaAll init metoda
-        //ili @BeforeEach koji bi "resetovao" podatke
-
     }
-
-    @Test
-    void testDeleteById() {
-        repository.deleteById(3L);
-    }
-
-
-    @Test
-    void findAdministratorByUsernameAndPassword() {
-        repository.findAdministratorByUsernameAndPassword("cc","cc");
-
-    }
-
 }
