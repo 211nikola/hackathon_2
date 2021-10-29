@@ -1,2 +1,16 @@
 # hackathon_2
-Hackathon Management Software in Java EE
+
+Web application build for Hackathon Management Software in Java EE
+
+
+Technologies used:
+-Spring 
+-Apache Maven
+-Tomcat
+-Thymeleaf
+-Bootstrap
+-MySQL
+
+
+
+
